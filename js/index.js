@@ -263,7 +263,7 @@ function ajaxgetteaname(teaid){
  	}
  });
 
-//学生管理-查看已预约实验
+//学生管理-查看已确认实验
  var OrderTestok=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -307,7 +307,7 @@ function ajaxgetteaname(teaid){
  		return(
  			<div id="OrderTestok">
  				<div className="title">
-	     		 查看已预约实验
+	     		 查看已确认实验
 	    		</div>
  				<ul className="student_infor">
  					<li><span>批次编号</span><span className="stu_item">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span><span>成绩</span></li>
@@ -332,7 +332,7 @@ function ajaxgetteaname(teaid){
  		)
  	}
  });
-  //学生管理-预约实验
+  //学生管理-确认实验
  var OrderTest=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -379,10 +379,10 @@ function ajaxgetteaname(teaid){
 					 		success:function(data){
 					 			if(data.code=="200")
 					 			{
-					 				alert("预约成功");
+					 				alert("确认成功");
 					 			}
 					 			else{
-					 				alert("预约失败");
+					 				alert("确认失败");
 					 			}
 					 		},
 					 		error:function(){
@@ -391,7 +391,7 @@ function ajaxgetteaname(teaid){
 				 		});
 				 	}
 				 	else{
-				 		alert("你不能同时预约同一项实验哦");
+				 		alert("你不能同时确认同一项实验哦");
 				 	}
 	 			}
 	 			else{
@@ -408,12 +408,12 @@ function ajaxgetteaname(teaid){
  		return(
  			<div id="OrderTest">
  				<div className="title">
-	     		 	预约实验
+	     		 	确认实验
 	    		</div>
 	    		<h4>这里是全部项目批次:</h4>
 	    		<ul className="admin_infor" id="posit">
 	    			<li><span>批次编号</span><span className="it_name">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span>
-	    				<span className="stu_del">预约</span>
+	    				<span className="stu_del">确认</span>
 	    			</li>
 	    			{
 		    			result.map(function(result){
@@ -1386,8 +1386,9 @@ $(".stuent_order").click(function(){
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
- 		//console.log(result);
+ 		//console.log(result.length);
  		var i=-1;
+ 		var name=result[i+1];
  		return(
  			<div id="AdminTestdis">
  				<div className="title">
@@ -1400,9 +1401,14 @@ $(".stuent_order").click(function(){
 	    			</li>
 	    			{
 		    			result.map(function(result){
+		    				// var name=ajaxgetitemname(result.itemid);
+		    				// var div=document.getElementById(".admin_infor");
+		    				// console.log(div[0]);		    				
+		    				// if(ajaxgetitemname(result.itemid)!=name)
+			    			// 		return <span className="item_name">{ajaxgetitemname(result.itemid)}</span>
 		    				i++;
 		    				return(
-		    					<li key={i}>		    						
+		    					<li key={i}>
 		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
 		    						<span>{result.batid}</span>
 		    						<span>{ajaxgetteaname(result.teaid)}</span>
@@ -1411,9 +1417,9 @@ $(".stuent_order").click(function(){
 		    						<span>{result.segmentation}</span>
 					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">删除</span>
 					    			<span onClick={ (event)=>{event.stopPropagation(),this.reviseclick(result.batid,result.itemid,result.teaid,result.laboratory,result.date,result.segmentation); } } className="stu_revise">修改</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.getstuclick(result.batid); } } className="stu_stu">查看预约学生</span>
-					    		</li>
-		    				)
+					    			<span onClick={ (event)=>{event.stopPropagation(),this.getstuclick(result.batid); } } className="stu_stu">查看预约学生</span>					    		
+		    					</li>
+		    				)		    				
 		    			}.bind(this))
 	    			}
 	    		</ul>
@@ -2432,6 +2438,68 @@ $(".admin_testorder").click(function(){
  			});
   		}
   	},
+  	componentDidMount:function(){
+  		var ul=this.refs.admin_infor; //获取dom节点
+  		lis=ul.childNodes;
+  	//	console.log(lis);
+  		for(var i=0;i<lis.length-1;i++)
+  		{
+  			var tag=0; 			
+			for(var j=0;j<lis.length;j++)
+  			{
+  				if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+  					tag++;
+  			}			
+			if(tag==1){lis[i+1].lastChild.style.display="none";}
+			if(lis[i].firstChild.innerHTML==lis[i+1].firstChild.innerHTML)
+  			{
+  				lis[i+1].lastChild.style.display="none";
+  				lis[i+1].style.display="none";
+  			}
+  		}
+  	},
+  	appear:function(e){
+  		var tag=0;
+		if(e.target.src.indexOf("appear")!=-1)
+		{
+			var target=e.target.parentNode; //获取当前点击的li
+		 	var ul=this.refs.admin_infor; //获取dom节点
+		  	lis=ul.childNodes;
+		  	e.target.src="build/img/close.png";
+
+			for(var i=0;i<lis.length-1;i++)
+			{
+				if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+				{
+					lis[i+1].style.display="block";
+				}
+			}
+		}
+		else{
+			var target=e.target.parentNode; //获取当前点击的li
+		  	var ul=this.refs.admin_infor; //获取dom节点
+		  	lis=ul.childNodes;		  	
+		  	e.target.src="build/img/appear.png";
+
+	  		for(var i=0;i<lis.length-1;i++)
+	  		{
+	  			if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+	  			{
+	  				lis[i+1].style.display="none";
+	  				if(target.firstChild.innerHTML!=lis[i+1].firstChild.innerHTML)
+	  				{  					
+	  					for(var j=0;j<lis.length;j++)
+	  					{
+	  						if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+	  							tag++;
+	  					}
+	  					if(tag==1){lis[i+1].lastChild.style.display="none";}
+	  					lis[i+1].style.display="block";
+	  				}
+	  			}
+	  		}
+		}
+  	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
@@ -2439,10 +2507,10 @@ $(".admin_testorder").click(function(){
  		return(
  			<div id="TeaTestdis">
  				<div className="title">
-	     		 	所有可预约项目批次
+	     		 	所有可修改项目批次
 	    		</div>
-	    		<h4>这里是全部可预约项目批次:</h4>
-	    		<ul className="admin_infor">
+	    		<h4>这里是全部可修改项目批次:</h4>
+	    		<ul className="admin_infor" ref="admin_infor">
 	    			<li><span className="it_name">实验名称</span><span>批次编号</span><span>实验地点</span><span>实验日期</span><span>节次</span>
 	    				<span className="stu_del">预约</span>
 	    			</li>
@@ -2450,13 +2518,14 @@ $(".admin_testorder").click(function(){
 		    			result.map(function(result){
 		    				i++;
 		    				return(
-		    					<li key={i}>		    						
+		    					<li key={i}>
 		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
 		    						<span>{result.batid}</span>
 		    						<span>{result.laboratory}</span>
 		    						<span>{result.date}</span>
 		    						<span>{result.segmentation}</span>
 					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">预约</span>
+					    			<img src="build/img/appear.png" id="tu" onClick={ (event)=>{event.stopPropagation(),this.appear(event); } }/>
 					    		</li>
 		    				)
 		    			}.bind(this))

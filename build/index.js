@@ -353,7 +353,7 @@
 		}
 	});
 
-	//学生管理-查看已预约实验
+	//学生管理-查看已确认实验
 	var OrderTestok = React.createClass({
 		displayName: "OrderTestok",
 
@@ -397,7 +397,7 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u67E5\u770B\u5DF2\u9884\u7EA6\u5B9E\u9A8C"
+					"\u67E5\u770B\u5DF2\u786E\u8BA4\u5B9E\u9A8C"
 				),
 				React.createElement(
 					"ul",
@@ -489,7 +489,7 @@
 			);
 		}
 	});
-	//学生管理-预约实验
+	//学生管理-确认实验
 	var OrderTest = React.createClass({
 		displayName: "OrderTest",
 
@@ -533,9 +533,9 @@
 								data: JSON.stringify(test),
 								success: function (data) {
 									if (data.code == "200") {
-										alert("预约成功");
+										alert("确认成功");
 									} else {
-										alert("预约失败");
+										alert("确认失败");
 									}
 								},
 								error: function () {
@@ -543,7 +543,7 @@
 								}
 							});
 						} else {
-							alert("你不能同时预约同一项实验哦");
+							alert("你不能同时确认同一项实验哦");
 						}
 					} else {
 						alert("no");
@@ -562,7 +562,7 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u9884\u7EA6\u5B9E\u9A8C"
+					"\u786E\u8BA4\u5B9E\u9A8C"
 				),
 				React.createElement(
 					"h4",
@@ -608,7 +608,7 @@
 						React.createElement(
 							"span",
 							{ className: "stu_del" },
-							"\u9884\u7EA6"
+							"\u786E\u8BA4"
 						)
 					),
 					result.map(function (result) {
@@ -2286,8 +2286,9 @@
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
-			//console.log(result);
+			//console.log(result.length);
 			var i = -1;
+			var name = result[i + 1];
 			return React.createElement(
 				"div",
 				{ id: "AdminTestdis" },
@@ -2354,6 +2355,11 @@
 						)
 					),
 					result.map(function (result) {
+						// var name=ajaxgetitemname(result.itemid);
+						// var div=document.getElementById(".admin_infor");
+						// console.log(div[0]);		    				
+						// if(ajaxgetitemname(result.itemid)!=name)
+						// 		return <span className="item_name">{ajaxgetitemname(result.itemid)}</span>
 						i++;
 						return React.createElement(
 							"li",
@@ -4074,6 +4080,59 @@
 				});
 			}
 		},
+		componentDidMount: function () {
+			var ul = this.refs.admin_infor; //获取dom节点
+			lis = ul.childNodes;
+			//	console.log(lis);
+			for (var i = 0; i < lis.length - 1; i++) {
+				var tag = 0;
+				for (var j = 0; j < lis.length; j++) {
+					if (lis[i + 1].firstChild.innerHTML == lis[j].firstChild.innerHTML) tag++;
+				}
+				if (tag == 1) {
+					lis[i + 1].lastChild.style.display = "none";
+				}
+				if (lis[i].firstChild.innerHTML == lis[i + 1].firstChild.innerHTML) {
+					lis[i + 1].lastChild.style.display = "none";
+					lis[i + 1].style.display = "none";
+				}
+			}
+		},
+		appear: function (e) {
+			var tag = 0;
+			if (e.target.src.indexOf("appear") != -1) {
+				var target = e.target.parentNode; //获取当前点击的li
+				var ul = this.refs.admin_infor; //获取dom节点
+				lis = ul.childNodes;
+				e.target.src = "build/img/close.png";
+
+				for (var i = 0; i < lis.length - 1; i++) {
+					if (target.firstChild.innerHTML == lis[i].firstChild.innerHTML) {
+						lis[i + 1].style.display = "block";
+					}
+				}
+			} else {
+				var target = e.target.parentNode; //获取当前点击的li
+				var ul = this.refs.admin_infor; //获取dom节点
+				lis = ul.childNodes;
+				e.target.src = "build/img/appear.png";
+
+				for (var i = 0; i < lis.length - 1; i++) {
+					if (target.firstChild.innerHTML == lis[i].firstChild.innerHTML) {
+						lis[i + 1].style.display = "none";
+						if (target.firstChild.innerHTML != lis[i + 1].firstChild.innerHTML) {
+							for (var j = 0; j < lis.length; j++) {
+								if (lis[i + 1].firstChild.innerHTML == lis[j].firstChild.innerHTML) tag++;
+							}
+							if (tag == 1) {
+								lis[i + 1].lastChild.style.display = "none";
+							}
+							lis[i + 1].style.display = "block";
+						}
+					}
+				}
+			}
+		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
@@ -4084,16 +4143,16 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u6240\u6709\u53EF\u9884\u7EA6\u9879\u76EE\u6279\u6B21"
+					"\u6240\u6709\u53EF\u4FEE\u6539\u9879\u76EE\u6279\u6B21"
 				),
 				React.createElement(
 					"h4",
 					null,
-					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u9884\u7EA6\u9879\u76EE\u6279\u6B21:"
+					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u4FEE\u6539\u9879\u76EE\u6279\u6B21:"
 				),
 				React.createElement(
 					"ul",
-					{ className: "admin_infor" },
+					{ className: "admin_infor", ref: "admin_infor" },
 					React.createElement(
 						"li",
 						null,
@@ -4164,7 +4223,10 @@
 										event.stopPropagation(), this.deleteclick(result.batid);
 									}, className: "stu_delete" },
 								"\u9884\u7EA6"
-							)
+							),
+							React.createElement("img", { src: "build/img/appear.png", id: "tu", onClick: event => {
+									event.stopPropagation(), this.appear(event);
+								} })
 						);
 					}.bind(this))
 				)
