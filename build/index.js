@@ -489,7 +489,7 @@
 			);
 		}
 	});
-	//学生管理-确认实验
+	//学生管理-待确认实验
 	var OrderTest = React.createClass({
 		displayName: "OrderTest",
 
@@ -504,14 +504,14 @@
 			this.state.result = result;
 		},
 		orderclick: function (batid, okid) {
-			//预约实验不能同时预约同一项实验
+			//登记实验不能同时登记同一项实验
 			var test = {
 				batid: batid,
 				numid: username
 			};
 			var j = 0;
 			//console.log(JSON.stringify(test));
-			//获取到该学生已经预约的实验id
+			//获取到该学生已经登记的实验id
 			$.ajax({
 				url: "http://yiranblade.cn/lbms/batch/student/" + username,
 				type: "GET",
@@ -520,11 +520,11 @@
 					if (data.code == "200") {
 						for (var i = 0; i < data.data.length; i++) {
 							//console.log(data.data[i].itemid);
-							//判断此时预约的实验id是否存在，若存在则不能继续预约
+							//判断此时登记的实验id是否存在，若存在则不能继续登记
 							if (data.data[i].itemid == okid) j = 1;
 						}
 						if (j == 0) {
-							//不存在则发送请求，预约成功
+							//不存在则发送请求，登记成功
 							$.ajax({
 								url: "http://yiranblade.cn/lbms/batch/student/" + batid + "&" + username,
 								type: "PUT",
@@ -539,7 +539,7 @@
 									}
 								},
 								error: function () {
-									alert("批次编号信息不存在");
+									alert("您可能没有跨域");
 								}
 							});
 						} else {
@@ -562,7 +562,7 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u786E\u8BA4\u5B9E\u9A8C"
+					"\u5F85\u786E\u8BA4\u5B9E\u9A8C"
 				),
 				React.createElement(
 					"h4",
@@ -651,7 +651,7 @@
 								{ onClick: event => {
 										event.stopPropagation(), this.orderclick(result.batid, result.itemid);
 									}, className: "stu_delete" },
-								"\u9884\u7EA6"
+								"\u786E\u8BA4"
 							)
 						);
 					}.bind(this))
@@ -2413,7 +2413,7 @@
 								{ onClick: event => {
 										event.stopPropagation(), this.getstuclick(result.batid);
 									}, className: "stu_stu" },
-								"\u67E5\u770B\u9884\u7EA6\u5B66\u751F"
+								"\u67E5\u770B\u767B\u8BB0\u5B66\u751F"
 							)
 						);
 					}.bind(this))
@@ -2421,7 +2421,7 @@
 			);
 		}
 	});
-	//管理员管理-审批项目批次
+	//管理员管理-待通过确认项目
 	var TestOrder = React.createClass({
 		displayName: "TestOrder",
 
@@ -2482,12 +2482,12 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u5BA1\u6279\u9879\u76EE\u6279\u6B21"
+					"\u5F85\u901A\u8FC7\u786E\u8BA4\u9879\u76EE"
 				),
 				React.createElement(
 					"h4",
 					null,
-					"\u8FD9\u91CC\u662F\u5F85\u5BA1\u6279\u7684\u9879\u76EE\u6279\u6B21:"
+					"\u8FD9\u91CC\u662F\u5F85\u901A\u8FC7\u786E\u8BA4\u7684\u9879\u76EE:"
 				),
 				React.createElement(
 					"ul",
@@ -2591,7 +2591,7 @@
 			);
 		}
 	});
-	//管理员管理-获取预约该项目批次的学生
+	//管理员管理-获取登记该项目批次的学生
 	var AdminGetstu = React.createClass({
 		displayName: "AdminGetstu",
 
@@ -2617,7 +2617,7 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u9884\u7EA6\u8BE5\u9879\u76EE\u6279\u6B21\u7684\u5B66\u751F"
+					"\u767B\u8BB0\u8BE5\u9879\u76EE\u6279\u6B21\u7684\u5B66\u751F"
 				),
 				React.createElement(
 					"ul",
@@ -3373,7 +3373,7 @@
 		});
 	});
 
-	//教师管理-项目管理
+	//教师管理-实验室课程安排
 	var TeacherTest = React.createClass({
 		displayName: "TeacherTest",
 
@@ -3403,15 +3403,15 @@
 			});
 		},
 		cancel: function (batid) {
-			//点击取消预约
-			if (confirm("确认取消预约吗？")) {
+			//点击取消登记
+			if (confirm("确认取消登记吗？")) {
 				$.ajax({
 					url: "http://yiranblade.cn/lbms/teacher/cancel/" + batid,
 					type: "GET",
 					dataType: "json",
 					success: function (data) {
 						if (data.code == "200") {
-							alert("已成功取消预约");
+							alert("已成功取消登记");
 							location.reload(true);
 						} else {
 							alert("no");
@@ -3431,12 +3431,12 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u9879\u76EE\u7BA1\u7406"
+					"\u5B9E\u9A8C\u5BA4\u8BFE\u7A0B\u5B89\u6392"
 				),
 				React.createElement(
 					"h4",
 					null,
-					"\u8FD9\u91CC\u662F\u60A8\u7684\u5B9E\u9A8C\u9879\u76EE:"
+					"\u8FD9\u91CC\u662F\u60A8\u7684\u5B9E\u9A8C\u5BA4\u8BFE\u7A0B\u5B89\u6392:"
 				),
 				React.createElement(
 					"ul",
@@ -3525,7 +3525,7 @@
 								{ className: "checkstu", onClick: event => {
 										event.stopPropagation(), this.checkstu(result.batid);
 									} },
-								"\u67E5\u770B\u9884\u7EA6\u5B66\u751F"
+								"\u67E5\u770B\u767B\u8BB0\u5B66\u751F"
 							),
 							React.createElement(
 								"span",
@@ -3541,7 +3541,7 @@
 		}
 	});
 
-	//教师管理-获取预约该项目批次的学生
+	//教师管理-获取登记该项目批次的学生
 	var TeaGetstu = React.createClass({
 		displayName: "TeaGetstu",
 
@@ -3571,7 +3571,7 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u9884\u7EA6\u8BE5\u9879\u76EE\u6279\u6B21\u7684\u5B66\u751F"
+					"\u767B\u8BB0\u8BE5\u9879\u76EE\u6279\u6B21\u7684\u5B66\u751F"
 				),
 				React.createElement(
 					"ul",
@@ -3690,7 +3690,7 @@
 							}
 						});
 					} else {
-						alert("录入失败,原因可能为 该学生没有预约您的实验 或 您的试验中没有此项");
+						alert("录入失败,原因可能为 该学生没有登记您的实验 或 您的试验中没有此项");
 					}
 				},
 				error: function () {
@@ -4046,7 +4046,7 @@
 			);
 		}
 	});
-	//教师管理-所有项目批次管理
+	//教师管理-可调整实验室列表
 	var TeaTestdis = React.createClass({
 		displayName: "TeaTestdis",
 
@@ -4062,19 +4062,19 @@
 			//	console.log(result);
 		},
 		deleteclick: function (batid) {
-			//点击预约跳出窗口询问是否预约
+			//点击登记跳出窗口询问是否登记
 			//console.log(e.target.textContent);
-			if (confirm("确认预约吗？")) {
+			if (confirm("确认登记吗？")) {
 				$.ajax({
 					url: "http://yiranblade.cn/lbms/teacher/make/" + username + "/" + batid,
 					type: "GET",
 					dataType: "json",
 					success: function (data) {
 						if (data.code == "200") {
-							alert("预约成功");
+							alert("登记成功");
 							location.reload(true);
 						} else {
-							alert("预约失败");
+							alert("登记失败");
 						}
 					}
 				});
@@ -4143,12 +4143,12 @@
 				React.createElement(
 					"div",
 					{ className: "title" },
-					"\u6240\u6709\u53EF\u4FEE\u6539\u9879\u76EE\u6279\u6B21"
+					"\u53EF\u8C03\u6574\u5B9E\u9A8C\u5BA4\u5217\u8868"
 				),
 				React.createElement(
 					"h4",
 					null,
-					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u4FEE\u6539\u9879\u76EE\u6279\u6B21:"
+					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u8C03\u6574\u5B9E\u9A8C\u5BA4\u5217\u8868:"
 				),
 				React.createElement(
 					"ul",
@@ -4184,7 +4184,7 @@
 						React.createElement(
 							"span",
 							{ className: "stu_del" },
-							"\u9884\u7EA6"
+							"\u767B\u8BB0"
 						)
 					),
 					result.map(function (result) {
@@ -4222,7 +4222,7 @@
 								{ onClick: event => {
 										event.stopPropagation(), this.deleteclick(result.batid);
 									}, className: "stu_delete" },
-								"\u9884\u7EA6"
+								"\u767B\u8BB0"
 							),
 							React.createElement("img", { src: "build/img/appear.png", id: "tu", onClick: event => {
 									event.stopPropagation(), this.appear(event);

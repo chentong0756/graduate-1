@@ -332,7 +332,7 @@ function ajaxgetteaname(teaid){
  		)
  	}
  });
-  //学生管理-确认实验
+  //学生管理-待确认实验
  var OrderTest=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -345,14 +345,14 @@ function ajaxgetteaname(teaid){
  		this.state.result=result;
   	},
   	orderclick:function(batid,okid){
-  		//预约实验不能同时预约同一项实验
+  		//登记实验不能同时登记同一项实验
  		var test={
  			batid:batid,
  			numid:username
  		}
  		var j=0;
  		//console.log(JSON.stringify(test));
- 		//获取到该学生已经预约的实验id
+ 		//获取到该学生已经登记的实验id
  		$.ajax({	
 	 		url:"http://yiranblade.cn/lbms/batch/student/"+username,
 	 		type:"GET",	
@@ -363,13 +363,13 @@ function ajaxgetteaname(teaid){
 	 				for(var i=0;i<data.data.length;i++)
 	 				{
 	 					//console.log(data.data[i].itemid);
-	 					//判断此时预约的实验id是否存在，若存在则不能继续预约
+	 					//判断此时登记的实验id是否存在，若存在则不能继续登记
 	 					if(data.data[i].itemid==okid)
 	 						j=1;
 	 				}
 	 				if(j==0)
 	 				{
-	 					//不存在则发送请求，预约成功
+	 					//不存在则发送请求，登记成功
 		 				$.ajax({	
 					 		url:"http://yiranblade.cn/lbms/batch/student/"+batid+"&"+username,
 					 		type:"PUT",	
@@ -386,7 +386,7 @@ function ajaxgetteaname(teaid){
 					 			}
 					 		},
 					 		error:function(){
-					 			alert("批次编号信息不存在");
+					 			alert("您可能没有跨域");
 					 		}
 				 		});
 				 	}
@@ -408,7 +408,7 @@ function ajaxgetteaname(teaid){
  		return(
  			<div id="OrderTest">
  				<div className="title">
-	     		 	确认实验
+	     		 	待确认实验
 	    		</div>
 	    		<h4>这里是全部项目批次:</h4>
 	    		<ul className="admin_infor" id="posit">
@@ -426,7 +426,7 @@ function ajaxgetteaname(teaid){
 		    						<span>{result.laboratory}</span>
 		    						<span>{result.date}</span>
 		    						<span>{result.segmentation}</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.orderclick(result.batid,result.itemid); } } className="stu_delete">预约</span>
+					    			<span onClick={ (event)=>{event.stopPropagation(),this.orderclick(result.batid,result.itemid); } } className="stu_delete">确认</span>
 					    		</li>
 		    				)
 		    			}.bind(this))
@@ -1417,7 +1417,7 @@ $(".stuent_order").click(function(){
 		    						<span>{result.segmentation}</span>
 					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">删除</span>
 					    			<span onClick={ (event)=>{event.stopPropagation(),this.reviseclick(result.batid,result.itemid,result.teaid,result.laboratory,result.date,result.segmentation); } } className="stu_revise">修改</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.getstuclick(result.batid); } } className="stu_stu">查看预约学生</span>					    		
+					    			<span onClick={ (event)=>{event.stopPropagation(),this.getstuclick(result.batid); } } className="stu_stu">查看登记学生</span>					    		
 		    					</li>
 		    				)		    				
 		    			}.bind(this))
@@ -1427,7 +1427,7 @@ $(".stuent_order").click(function(){
  		)
  	}
  });
-  //管理员管理-审批项目批次
+  //管理员管理-待通过确认项目
  var TestOrder=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -1489,9 +1489,9 @@ $(".stuent_order").click(function(){
  		return(
  			<div id="TestOrder">
  				<div className="title">
-	     		 	审批项目批次
+	     		 	待通过确认项目
 	    		</div>
-	    		<h4>这里是待审批的项目批次:</h4>
+	    		<h4>这里是待通过确认的项目:</h4>
 	    		<ul className="admin_infor">
 	    			<li><span className="it_name">实验名称</span><span>批次编号</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span>
 	    				<span className="stu_del">同意</span><span className="stu_re">拒绝</span>
@@ -1518,7 +1518,7 @@ $(".stuent_order").click(function(){
  		)
  	}
  });
-//管理员管理-获取预约该项目批次的学生
+//管理员管理-获取登记该项目批次的学生
  var AdminGetstu=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -1539,7 +1539,7 @@ $(".stuent_order").click(function(){
  		return(
  			<div id="AdminGetstu">
  				<div className="title">
-	     		 	预约该项目批次的学生
+	     		 	登记该项目批次的学生
 	    		</div>
 	    		<ul className="admin_infor">
 	    			<li key={i}><span>姓名</span><span>学号</span><span>性别</span><span>年级</span><span>专业</span></li>
@@ -2042,7 +2042,7 @@ $(".admin_testorder").click(function(){
 })
 
 
- //教师管理-项目管理
+ //教师管理-实验室课程安排
  var TeacherTest=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -2072,8 +2072,8 @@ $(".admin_testorder").click(function(){
  		});
   	},
   	cancel:function(batid){
-		//点击取消预约
-		if(confirm("确认取消预约吗？"))
+		//点击取消登记
+		if(confirm("确认取消登记吗？"))
   		{
 	  		$.ajax({	
 		 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
@@ -2082,7 +2082,7 @@ $(".admin_testorder").click(function(){
 		 		success:function(data){
 		 			if(data.code=="200")
 		 			{ 	
-		 				alert("已成功取消预约");
+		 				alert("已成功取消登记");
 		 				location.reload(true);
 		 			}
 		 			else{
@@ -2100,9 +2100,9 @@ $(".admin_testorder").click(function(){
  		return(
  			<div id="TeacherTest">
  				<div className="title">
-	     		 	项目管理
+	     		 	实验室课程安排
 	    		</div>
-	    		<h4>这里是您的实验项目:</h4>
+	    		<h4>这里是您的实验室课程安排:</h4>
 	    		<ul className="teacher_infor">
 	    			<li><span>批次编号</span><span className="item_name">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span><span>学生</span><span>取消</span></li>
 	    			{
@@ -2116,7 +2116,7 @@ $(".admin_testorder").click(function(){
 		    						<span>{result.laboratory}</span>
 		    						<span>{result.date}</span>
 		    						<span>{result.segmentation}</span>
-		    						<span className="checkstu" onClick={(event)=>{event.stopPropagation(),this.checkstu(result.batid);}}>查看预约学生</span>
+		    						<span className="checkstu" onClick={(event)=>{event.stopPropagation(),this.checkstu(result.batid);}}>查看登记学生</span>
 		    						<span className="checkstu" onClick={(event)=>{event.stopPropagation(),this.cancel(result.batid);}}>取消</span>
 					    		</li>
 		    				)
@@ -2128,7 +2128,7 @@ $(".admin_testorder").click(function(){
  	}
  });
 
-//教师管理-获取预约该项目批次的学生
+//教师管理-获取登记该项目批次的学生
  var TeaGetstu=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -2153,7 +2153,7 @@ $(".admin_testorder").click(function(){
  		return(
  			<div id="TeaGetstu">
  				<div className="title">
-	     		 	预约该项目批次的学生
+	     		 	登记该项目批次的学生
 	    		</div>
 	    		<ul className="admin_infor">
 	    			<li key={i}><span>姓名</span><span>学号</span><span>性别</span><span>年级</span><span>专业</span><span>成绩</span></li>
@@ -2216,7 +2216,7 @@ $(".admin_testorder").click(function(){
 			 		});
 	 			}
 	 			else{
-	 				alert("录入失败,原因可能为 该学生没有预约您的实验 或 您的试验中没有此项");
+	 				alert("录入失败,原因可能为 该学生没有登记您的实验 或 您的试验中没有此项");
 	 			}
 	 		},
 	 		error:function(){
@@ -2403,7 +2403,7 @@ $(".admin_testorder").click(function(){
  		)
  	}
  });
-  //教师管理-所有项目批次管理
+  //教师管理-可调整实验室列表
  var TeaTestdis=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -2417,9 +2417,9 @@ $(".admin_testorder").click(function(){
  	//	console.log(result);
   	},
   	deleteclick:function(batid){
-  		//点击预约跳出窗口询问是否预约
+  		//点击登记跳出窗口询问是否登记
   		//console.log(e.target.textContent);
-  		if(confirm("确认预约吗？"))
+  		if(confirm("确认登记吗？"))
   		{
   			$.ajax({	
 		 		url:"http://yiranblade.cn/lbms/teacher/make/"+username+"/"+batid,
@@ -2428,11 +2428,11 @@ $(".admin_testorder").click(function(){
 		 		success:function(data){
 		 			if(data.code=="200")
 		 			{
-		 				alert("预约成功");
+		 				alert("登记成功");
 		 				location.reload(true);
 		 			}
 		 			else{
-		 				alert("预约失败");
+		 				alert("登记失败");
 		 			}
 		 		}
  			});
@@ -2507,12 +2507,12 @@ $(".admin_testorder").click(function(){
  		return(
  			<div id="TeaTestdis">
  				<div className="title">
-	     		 	所有可修改项目批次
+	     		 	可调整实验室列表
 	    		</div>
-	    		<h4>这里是全部可修改项目批次:</h4>
+	    		<h4>这里是全部可调整实验室列表:</h4>
 	    		<ul className="admin_infor" ref="admin_infor">
 	    			<li><span className="it_name">实验名称</span><span>批次编号</span><span>实验地点</span><span>实验日期</span><span>节次</span>
-	    				<span className="stu_del">预约</span>
+	    				<span className="stu_del">登记</span>
 	    			</li>
 	    			{
 		    			result.map(function(result){
@@ -2524,7 +2524,7 @@ $(".admin_testorder").click(function(){
 		    						<span>{result.laboratory}</span>
 		    						<span>{result.date}</span>
 		    						<span>{result.segmentation}</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">预约</span>
+					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">登记</span>
 					    			<img src="build/img/appear.png" id="tu" onClick={ (event)=>{event.stopPropagation(),this.appear(event); } }/>
 					    		</li>
 		    				)
