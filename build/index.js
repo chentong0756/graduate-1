@@ -98,7 +98,231 @@
 		});
 		return teaname;
 	}
+	//表格渲染
+	var TableRender = React.createClass({
+		displayName: "TableRender",
 
+		render: function () {
+			return React.createElement(
+				"table",
+				null,
+				React.createElement(
+					"caption",
+					null,
+					"\u7B2C",
+					React.createElement("span", { id: "weeknum" }),
+					"\u5468"
+				),
+				React.createElement(
+					"tbody",
+					null,
+					React.createElement(
+						"tr",
+						null,
+						React.createElement("th", null),
+						React.createElement(
+							"th",
+							{ "data-week": "1" },
+							"\u5468\u4E00"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "2" },
+							"\u5468\u4E8C"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "3" },
+							"\u5468\u4E09"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "4" },
+							"\u5468\u56DB"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "5" },
+							"\u5468\u4E94"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "6" },
+							"\u5468\u516D"
+						),
+						React.createElement(
+							"th",
+							{ "data-week": "0" },
+							"\u5468\u672B"
+						)
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"1-2"
+						),
+						React.createElement("td", { "data-lab": "1", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "1", "data-week": "7" })
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"3-4"
+						),
+						React.createElement("td", { "data-lab": "2", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "2", "data-week": "7" })
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"\u4E2D\u5348"
+						),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "\u4E2D\u5348", "data-week": "7" })
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"5-6"
+						),
+						React.createElement("td", { "data-lab": "3", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "3", "data-week": "7" })
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"7-8"
+						),
+						React.createElement("td", { "data-lab": "4", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "4", "data-week": "7" })
+					),
+					React.createElement(
+						"tr",
+						null,
+						React.createElement(
+							"td",
+							null,
+							"\u665A\u4E0A"
+						),
+						React.createElement("td", { "data-lab": "5", "data-week": "1" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "2" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "3" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "4" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "5" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "6" }),
+						React.createElement("td", { "data-lab": "5", "data-week": "7" })
+					)
+				)
+			);
+		}
+	});
+	//填充数据
+	function filldata(result, text, disclick) {
+		var termdate = new Date(2017, 2 - 1, 27); //开学的时间
+		termmsec = termdate.getTime(); //开学时间距 1970-01-01 的毫秒数
+		//	console.log(result);
+
+		//设置标题的周数
+		var caption = document.getElementById("weeknum");
+		caption.innerHTML = text;
+
+		if (disclick != 1 && disclick != 3) {
+			var tds = document.getElementsByTagName("td"); //初始化
+			for (var i = 0; i < tds.length; i++) {
+				if (i != 0 && i != 8 && i != 16 && i != 24 && i != 32 && i != 40 && i != 48) {
+					tds[i].innerHTML = "";
+					tds[i].removeAttribute("batid");
+					tds[i].style.cursor = "default";
+					tds[i].style.background = "rgb(246,241,241)";
+				}
+			}
+		}
+		for (let list of result) {
+			var listdate = list.date.split("-");
+			var date = new Date(listdate[0], listdate[1] - 1, listdate[2]); //该课程的时间
+			var datemsec = date.getTime(); //课程时间距 1970-01-01 
+			datemsec = datemsec - termmsec;
+			datemsec = datemsec / 1000 / 60 / 60 / 24;
+			datemsec = Math.floor(datemsec / 7) + 1; //距现在的周数
+			//	console.log("text:"+text+" datemsec:"+datemsec);
+			if (text == datemsec) //若周期和点击获取的text相等则渲染到页面里
+				{
+					//		console.log(list);
+					var teaname = ajaxgetteaname(list.teaid); //根据教师id获取教师姓名
+					var itemname = ajaxgetitemname(list.itemid); //根据项目批次id获取项目名称
+					var listdate = list.date.split("-");
+					var date = new Date(listdate[0], listdate[1] - 1, listdate[2]); //该课程的时间
+
+					var week = date.getDay(); //获取当前星期
+					if (week == 0) week = 7;
+
+					var tds = document.getElementsByTagName("td");
+					var seg = list.segmentation;
+
+					if (seg <= 2) seg = seg - 1;
+					if (seg > 2 || seg < 5) seg = seg;
+					if (seg == "中午") seg = 2;
+					if (seg > 5 || seg == "晚上") seg = 5;
+					tds[seg * 8 + week].innerHTML = "<a class=td_a/>";
+					tds[seg * 8 + week].firstChild.innerHTML = list.laboratory + "<br/>" + itemname;
+					tds[seg * 8 + week].firstChild.setAttribute("title", list.laboratory + "\n" + itemname + "\n" + teaname + "\n" + list.date);
+					if (disclick != 1) {
+						tds[seg * 8 + week].style.cursor = "pointer";
+						tds[seg * 8 + week].firstChild.setAttribute("batid", list.batid);
+						tds[seg * 8 + week].firstChild.setAttribute("date", list.date);
+						tds[seg * 8 + week].firstChild.setAttribute("itemid", list.itemid);
+						tds[seg * 8 + week].firstChild.setAttribute("laboratory", list.laboratory);
+						tds[seg * 8 + week].firstChild.setAttribute("segmentation", list.segmentation);
+						tds[seg * 8 + week].firstChild.setAttribute("teaid", list.teaid);
+						tds[seg * 8 + week].style.background = "white";
+					}
+					if (disclick == 3) {
+						tds[seg * 8 + week].style.background = "#DDD";
+					}
+					//	console.log(tds[seg*8+week].getAttribute("batid"));
+				}
+		}
+	}
 	//学生管理模块
 	//学生管理-个人信息组件
 	var PersonInformation = React.createClass({
@@ -386,6 +610,16 @@
 				}
 			});
 		},
+		componentDidMount: function () {
+			ReactDOM.render(React.createElement(TableRender, null), document.getElementById("student_infor"));
+		},
+		padingclick: function (e) {
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+			var text = e.target.textContent;
+			//	console.log(result);
+			filldata(result, text);
+		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
@@ -399,92 +633,102 @@
 					{ className: "title" },
 					"\u67E5\u770B\u5DF2\u786E\u8BA4\u5B9E\u9A8C"
 				),
+				React.createElement("div", { id: "student_infor", ref: "student_infor", onClick: event => {
+						this.getgrade(event.target.getAttribute("batid"));
+					} }),
 				React.createElement(
 					"ul",
-					{ className: "student_infor" },
+					{ id: "paging", onClick: this.padingclick },
 					React.createElement(
 						"li",
 						null,
-						React.createElement(
-							"span",
-							null,
-							"\u6279\u6B21\u7F16\u53F7"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_item" },
-							"\u5B9E\u9A8C\u540D\u79F0"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6559\u5E08\u59D3\u540D"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u5730\u70B9"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u65E5\u671F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u8282\u6B21"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6210\u7EE9"
-						)
+						"1"
 					),
-					result.map(function (result) {
-						i++;
-						return React.createElement(
-							"li",
-							{ key: i },
-							React.createElement(
-								"span",
-								null,
-								result.batid
-							),
-							React.createElement(
-								"span",
-								{ className: "stu_item" },
-								ajaxgetitemname(result.itemid)
-							),
-							React.createElement(
-								"span",
-								null,
-								ajaxgetteaname(result.teaid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.laboratory
-							),
-							React.createElement(
-								"span",
-								null,
-								result.date
-							),
-							React.createElement(
-								"span",
-								null,
-								result.segmentation
-							),
-							React.createElement(
-								"span",
-								{ className: "getgrade", onClick: event => {
-										event.stopPropagation(), this.getgrade(result.batid);
-									} },
-								"\u83B7\u53D6\u6210\u7EE9"
-							)
-						);
-					}.bind(this))
+					React.createElement(
+						"li",
+						null,
+						"2"
+					),
+					React.createElement(
+						"li",
+						null,
+						"3"
+					),
+					React.createElement(
+						"li",
+						null,
+						"4"
+					),
+					React.createElement(
+						"li",
+						null,
+						"5"
+					),
+					React.createElement(
+						"li",
+						null,
+						"6"
+					),
+					React.createElement(
+						"li",
+						null,
+						"7"
+					),
+					React.createElement(
+						"li",
+						null,
+						"8"
+					),
+					React.createElement(
+						"li",
+						null,
+						"9"
+					),
+					React.createElement(
+						"li",
+						null,
+						"10"
+					),
+					React.createElement(
+						"li",
+						null,
+						"11"
+					),
+					React.createElement(
+						"li",
+						null,
+						"12"
+					),
+					React.createElement(
+						"li",
+						null,
+						"13"
+					),
+					React.createElement(
+						"li",
+						null,
+						"14"
+					),
+					React.createElement(
+						"li",
+						null,
+						"15"
+					),
+					React.createElement(
+						"li",
+						null,
+						"16"
+					),
+					React.createElement(
+						"li",
+						null,
+						"17"
+					),
+					React.createElement(
+						"li",
+						null,
+						"18"
+					)
 				)
 			);
 		}
@@ -551,6 +795,16 @@
 				}
 			});
 		},
+		componentDidMount: function () {
+			ReactDOM.render(React.createElement(TableRender, null), document.getElementById("student_infor"));
+		},
+		padingclick: function (e) {
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+			var text = e.target.textContent;
+			//	console.log(result);
+			filldata(result, text);
+		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
@@ -569,92 +823,102 @@
 					null,
 					"\u8FD9\u91CC\u662F\u5168\u90E8\u9879\u76EE\u6279\u6B21:"
 				),
+				React.createElement("div", { id: "student_infor", ref: "student_infor", onClick: event => {
+						this.orderclick(event.target.getAttribute("batid"), event.target.getAttribute("itemid"));
+					} }),
 				React.createElement(
 					"ul",
-					{ className: "admin_infor", id: "posit" },
+					{ id: "paging", onClick: this.padingclick },
 					React.createElement(
 						"li",
 						null,
-						React.createElement(
-							"span",
-							null,
-							"\u6279\u6B21\u7F16\u53F7"
-						),
-						React.createElement(
-							"span",
-							{ className: "it_name" },
-							"\u5B9E\u9A8C\u540D\u79F0"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6559\u5E08\u59D3\u540D"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u5730\u70B9"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u65E5\u671F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u8282\u6B21"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_del" },
-							"\u786E\u8BA4"
-						)
+						"1"
 					),
-					result.map(function (result) {
-						i++;
-						return React.createElement(
-							"li",
-							{ key: i },
-							React.createElement(
-								"span",
-								null,
-								result.batid
-							),
-							React.createElement(
-								"span",
-								{ className: "item_name" },
-								ajaxgetitemname(result.itemid)
-							),
-							React.createElement(
-								"span",
-								null,
-								ajaxgetteaname(result.teaid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.laboratory
-							),
-							React.createElement(
-								"span",
-								null,
-								result.date
-							),
-							React.createElement(
-								"span",
-								null,
-								result.segmentation
-							),
-							React.createElement(
-								"span",
-								{ onClick: event => {
-										event.stopPropagation(), this.orderclick(result.batid, result.itemid);
-									}, className: "stu_delete" },
-								"\u786E\u8BA4"
-							)
-						);
-					}.bind(this))
+					React.createElement(
+						"li",
+						null,
+						"2"
+					),
+					React.createElement(
+						"li",
+						null,
+						"3"
+					),
+					React.createElement(
+						"li",
+						null,
+						"4"
+					),
+					React.createElement(
+						"li",
+						null,
+						"5"
+					),
+					React.createElement(
+						"li",
+						null,
+						"6"
+					),
+					React.createElement(
+						"li",
+						null,
+						"7"
+					),
+					React.createElement(
+						"li",
+						null,
+						"8"
+					),
+					React.createElement(
+						"li",
+						null,
+						"9"
+					),
+					React.createElement(
+						"li",
+						null,
+						"10"
+					),
+					React.createElement(
+						"li",
+						null,
+						"11"
+					),
+					React.createElement(
+						"li",
+						null,
+						"12"
+					),
+					React.createElement(
+						"li",
+						null,
+						"13"
+					),
+					React.createElement(
+						"li",
+						null,
+						"14"
+					),
+					React.createElement(
+						"li",
+						null,
+						"15"
+					),
+					React.createElement(
+						"li",
+						null,
+						"16"
+					),
+					React.createElement(
+						"li",
+						null,
+						"17"
+					),
+					React.createElement(
+						"li",
+						null,
+						"18"
+					)
 				)
 			);
 		}
@@ -2248,47 +2512,261 @@
 		deleteclick: function (batid) {
 			//点击删除跳出窗口询问是否删除
 			//console.log(e.target.textContent);
-			if (confirm("确认删除吗？")) {
+			if (batid != null && $("#selectState option:selected").val() == "sel_delete") {
+				if (confirm("确认删除吗？")) {
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/batch/" + batid,
+						type: "DELETE",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								alert("删除成功");
+								//	location.reload(true);
+							} else {
+								alert("删除失败");
+							}
+						}
+					});
+				}
+			}
+		},
+		reviseclick: function (batid, itemid, teaid, lab, date, seg) {
+			//点击修改跳转至修改页面
+			//	console.log(batid+itemid+teaid+lab+date+seg);
+			if (batid != null && $("#selectState option:selected").val() == "sel_revise") {
+				ReactDOM.render(React.createElement(AdminReTestdis, { batid: batid, itemid: itemid, teaid: teaid, lab: lab, date: date, seg: seg }), document.getElementById("info_admin"));
+			}
+		},
+		getstuclick: function (batid) {
+			//点击获取该实验批次的学生
+			if (batid != null && $("#selectState option:selected").val() == "sel_checkstu") {
 				$.ajax({
-					url: "http://yiranblade.cn/lbms/batch/" + batid,
-					type: "DELETE",
+					url: "http://yiranblade.cn/lbms/student/" + batid + "/1",
+					type: "GET",
 					dataType: "json",
 					success: function (data) {
 						if (data.code == "200") {
-							alert("删除成功");
-							location.reload(true);
+							ReactDOM.render(React.createElement(AdminGetstu, { data: data }), document.getElementById("info_admin"));
 						} else {
-							alert("删除失败");
+							alert("no");
 						}
 					}
 				});
 			}
 		},
-		reviseclick: function (batid, itemid, teaid, lab, date, seg) {
-			//点击修改跳转至修改页面
-			ReactDOM.render(React.createElement(AdminReTestdis, { batid: batid, itemid: itemid, teaid: teaid, lab: lab, date: date, seg: seg }), document.getElementById("info_admin"));
+		componentDidMount: function () {
+			ReactDOM.render(React.createElement(TableRender, null), document.getElementById("admin_infor"));
 		},
-		getstuclick: function (batid) {
-			//点击获取该实验批次的学生
+		padingclick: function (e) {
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+			var text = e.target.textContent;
+			filldata(result, text);
+			//添加待通过确认的项目
 			$.ajax({
-				url: "http://yiranblade.cn/lbms/student/" + batid + "/1",
+				url: "http://yiranblade.cn/lbms/batch/needapprove",
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
 					if (data.code == "200") {
-						ReactDOM.render(React.createElement(AdminGetstu, { data: data }), document.getElementById("info_admin"));
+						filldata(data.data, text, 3);
 					} else {
 						alert("no");
 					}
 				}
 			});
 		},
+		// addselect:function(e){
+		// 	console.log(e.target.parentNode);
+		// 	var div=document.createElement("div");
+		// 	div.className="addselect";
+		// 	e.target.parentNode.appendChild(div);
+		// 	temp.className="addselect";
+		// },
+		// removeselect:function(e){
+		// 	if(e.target.parentNode.lastChild.className=="addselect")
+		// 	{
+		//		e.target.parentNode.removeChild(e.target.parentNode.lastChild);
+		// 	}
+		// },
+		additemdis: function (e) {
+
+			if ($("#selectState option:selected").val() == "sel_additemdis") {
+				//若点击"ok"则设置批次
+				if (e.target.textContent == "ok") {
+					var day = e.target.parentNode.getAttribute("data-week");
+					day = parseInt(day);
+					var week = $("#weeknum").html();
+					var date = (week - 1) * 7 + day;
+					date = date * 24 * 60 * 60 * 1000;
+					var termdate = new Date(2017, 2 - 1, 27); //开学的时间
+					termmsec = termdate.getTime(); //开学时间距 1970-01-01 的毫秒数
+					date = new Date(termmsec + date);
+					var myyear = date.getFullYear(); //获取年
+					var mymonth = date.getMonth() + 1; //获取月
+					var mydate = date.getDate() - 1; //获取日
+
+					var testdis = {
+						itemid: e.target.parentNode.firstChild.value,
+						teaid: e.target.previousSibling.value,
+						laboratory: $("#selectPlace option:selected").val(),
+						date: myyear + "-" + mymonth + "-" + mydate,
+						segmentation: e.target.parentNode.getAttribute("data-lab")
+					};
+					console.log(JSON.stringify(testdis));
+					if (confirm("确认添加吗？")) {
+						$.ajax({
+							url: "http://yiranblade.cn/lbms/batch",
+							type: "POST",
+							dataType: "json",
+							"contentType": "application/json",
+							data: JSON.stringify(testdis),
+							success: function (data) {
+								if (data.code == "200") {
+									alert("成功添加,信息已保存");
+								} else {
+									alert("保存失败");
+								}
+							},
+							error: function () {
+								alert("出错了");
+							}
+						});
+					}
+				}
+				//添加地点
+				if ($("#selectPlace option:selected").val() == undefined) {
+					var selectPlace = document.getElementById("selectPlace");
+					var option = document.createElement("option");
+					option.innerHTML = "fz123";
+					option.style.value = "fz123";
+					selectPlace.appendChild(option);
+					var option = document.createElement("option");
+					option.innerHTML = "fz134";
+					option.style.value = "fz134";
+					selectPlace.appendChild(option);
+					var option = document.createElement("option");
+					option.innerHTML = "a222";
+					option.style.value = "a222";
+					selectPlace.appendChild(option);
+					var option = document.createElement("option");
+					option.innerHTML = "b345";
+					option.style.value = "b345";
+					selectPlace.appendChild(option);
+					var option = document.createElement("option");
+					option.innerHTML = "ff106";
+					option.style.value = "ff106";
+					selectPlace.appendChild(option);
+					var option = document.createElement("option");
+					option.innerHTML = "ff207";
+					option.style.value = "ff207";
+					selectPlace.appendChild(option);
+				}
+				//	console.log($("#weeknum").html());
+				if ($("#weeknum").html() == "" && $("#selectPlace option:selected").val() != undefined) {
+					alert("您还没有选择第几周");
+				}
+				//	console.log(e.target.textContent);
+				//添加实验名称和教师名称
+				if ($("#selectPlace option:selected").val() != undefined && $("#weeknum").html() != "" && e.target.textContent == "") {
+					var itemselect = document.createElement("select");
+					var teaselect = document.createElement("select");
+					//添加第一个教师值为""
+					var option = document.createElement("option");
+					option.innerHTML = "";
+					option.value = "";
+					teaselect.appendChild(option);
+
+					var divok = document.createElement("div");
+					divok.innerHTML = "ok";
+
+					e.target.appendChild(itemselect);
+					e.target.appendChild(teaselect);
+					e.target.appendChild(divok);
+					//添加实验名称
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/item/page/1",
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								//	console.log(data);
+								for (var place of data.data.recordList) {
+									var option = document.createElement("option");
+									var itemname = ajaxgetitemname(place.itemid);
+									option.innerHTML = itemname;
+									option.value = place.itemid;
+									itemselect.appendChild(option);
+								}
+							} else {
+								alert("no");
+							}
+						}
+					});
+					//添加教师名称
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/teacher/page/1",
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								//	console.log(data);
+								for (var place of data.data.recordList) {
+									var option = document.createElement("option");
+									option.innerHTML = place.name;
+									option.value = place.teaid;
+									teaselect.appendChild(option);
+								}
+							} else {
+								alert("no");
+							}
+						}
+					});
+				}
+			}
+		},
+		agree: function (batid) {
+			var user;
+			user = prompt("请输入你想要的操作：【1为同意，2为拒绝，3为取消】");
+			if (user == 1) {
+				if (confirm("确认同意吗？")) {
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/batch/approve/" + batid,
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								alert("项目已成功添加");
+								location.reload(true);
+							} else {
+								alert("已拒绝");
+							}
+						}
+					});
+				}
+			} else if (user == 2) {
+				if (confirm("确认拒绝吗？")) {
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/teacher/cancel/" + batid,
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								alert("已拒绝");
+								location.reload(true);
+							} else {
+								alert("出错了");
+							}
+						}
+					});
+				}
+			}
+		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
-			//console.log(result.length);
+			//	console.log(result);
 			var i = -1;
-			var name = result[i + 1];
 			return React.createElement(
 				"div",
 				{ id: "AdminTestdis" },
@@ -2303,120 +2781,128 @@
 					"\u8FD9\u91CC\u662F\u5168\u90E8\u9879\u76EE\u6279\u6B21:"
 				),
 				React.createElement(
+					"select",
+					{ id: "selectState" },
+					React.createElement(
+						"option",
+						{ value: "sel_revise" },
+						"\u4FEE\u6539\u72B6\u6001"
+					),
+					React.createElement(
+						"option",
+						{ value: "sel_delete" },
+						"\u5220\u9664\u72B6\u6001"
+					),
+					React.createElement(
+						"option",
+						{ value: "sel_checkstu" },
+						"\u67E5\u770B\u767B\u8BB0\u5B66\u751F\u72B6\u6001"
+					),
+					React.createElement(
+						"option",
+						{ value: "sel_additemdis" },
+						"\u589E\u52A0\u9879\u76EE\u6279\u6B21\u72B6\u6001"
+					)
+				),
+				React.createElement("select", { id: "selectPlace" }),
+				React.createElement("div", { id: "admin_infor", ref: "admin_infor", onClick: event => {
+						if (event.target.parentNode.style.background == "rgb(221, 221, 221)") this.agree(event.target.getAttribute("batid"));else {
+							this.getstuclick(event.target.getAttribute("batid")), this.reviseclick(event.target.getAttribute("batid"), event.target.getAttribute("itemid"), event.target.getAttribute("teaid"), event.target.getAttribute("laboratory"), event.target.getAttribute("date"), event.target.getAttribute("segmentation")), this.deleteclick(event.target.getAttribute("batid")), this.additemdis(event);
+						}
+					} }),
+				React.createElement(
 					"ul",
-					{ className: "admin_infor" },
+					{ id: "paging", onClick: this.padingclick },
 					React.createElement(
 						"li",
 						null,
-						React.createElement(
-							"span",
-							{ className: "it_name" },
-							"\u5B9E\u9A8C\u540D\u79F0"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6279\u6B21\u7F16\u53F7"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6559\u5E08\u59D3\u540D"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u5730\u70B9"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u65E5\u671F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u8282\u6B21"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_del" },
-							"\u5220\u9664"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_re" },
-							"\u4FEE\u6539"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_s" },
-							"\u5B66\u751F"
-						)
+						"1"
 					),
-					result.map(function (result) {
-						// var name=ajaxgetitemname(result.itemid);
-						// var div=document.getElementById(".admin_infor");
-						// console.log(div[0]);		    				
-						// if(ajaxgetitemname(result.itemid)!=name)
-						// 		return <span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-						i++;
-						return React.createElement(
-							"li",
-							{ key: i },
-							React.createElement(
-								"span",
-								{ className: "item_name" },
-								ajaxgetitemname(result.itemid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.batid
-							),
-							React.createElement(
-								"span",
-								null,
-								ajaxgetteaname(result.teaid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.laboratory
-							),
-							React.createElement(
-								"span",
-								null,
-								result.date
-							),
-							React.createElement(
-								"span",
-								null,
-								result.segmentation
-							),
-							React.createElement(
-								"span",
-								{ onClick: event => {
-										event.stopPropagation(), this.deleteclick(result.batid);
-									}, className: "stu_delete" },
-								"\u5220\u9664"
-							),
-							React.createElement(
-								"span",
-								{ onClick: event => {
-										event.stopPropagation(), this.reviseclick(result.batid, result.itemid, result.teaid, result.laboratory, result.date, result.segmentation);
-									}, className: "stu_revise" },
-								"\u4FEE\u6539"
-							),
-							React.createElement(
-								"span",
-								{ onClick: event => {
-										event.stopPropagation(), this.getstuclick(result.batid);
-									}, className: "stu_stu" },
-								"\u67E5\u770B\u767B\u8BB0\u5B66\u751F"
-							)
-						);
-					}.bind(this))
+					React.createElement(
+						"li",
+						null,
+						"2"
+					),
+					React.createElement(
+						"li",
+						null,
+						"3"
+					),
+					React.createElement(
+						"li",
+						null,
+						"4"
+					),
+					React.createElement(
+						"li",
+						null,
+						"5"
+					),
+					React.createElement(
+						"li",
+						null,
+						"6"
+					),
+					React.createElement(
+						"li",
+						null,
+						"7"
+					),
+					React.createElement(
+						"li",
+						null,
+						"8"
+					),
+					React.createElement(
+						"li",
+						null,
+						"9"
+					),
+					React.createElement(
+						"li",
+						null,
+						"10"
+					),
+					React.createElement(
+						"li",
+						null,
+						"11"
+					),
+					React.createElement(
+						"li",
+						null,
+						"12"
+					),
+					React.createElement(
+						"li",
+						null,
+						"13"
+					),
+					React.createElement(
+						"li",
+						null,
+						"14"
+					),
+					React.createElement(
+						"li",
+						null,
+						"15"
+					),
+					React.createElement(
+						"li",
+						null,
+						"16"
+					),
+					React.createElement(
+						"li",
+						null,
+						"17"
+					),
+					React.createElement(
+						"li",
+						null,
+						"18"
+					)
 				)
 			);
 		}
@@ -3389,30 +3875,14 @@
 		},
 		checkstu: function (batid) {
 			//点击获取该实验批次的学生
-			$.ajax({
-				url: "http://yiranblade.cn/lbms/student/" + batid + "/1",
-				type: "GET",
-				dataType: "json",
-				success: function (data) {
-					if (data.code == "200") {
-						ReactDOM.render(React.createElement(TeaGetstu, { data: data, batid: batid }), document.getElementById("info_teacher"));
-					} else {
-						alert("no");
-					}
-				}
-			});
-		},
-		cancel: function (batid) {
-			//点击取消登记
-			if (confirm("确认取消登记吗？")) {
+			if ($("#selectState option:selected").val() == "sel_checkstu" && batid != null) {
 				$.ajax({
-					url: "http://yiranblade.cn/lbms/teacher/cancel/" + batid,
+					url: "http://yiranblade.cn/lbms/student/" + batid + "/1",
 					type: "GET",
 					dataType: "json",
 					success: function (data) {
 						if (data.code == "200") {
-							alert("已成功取消登记");
-							location.reload(true);
+							ReactDOM.render(React.createElement(TeaGetstu, { data: data, batid: batid }), document.getElementById("info_teacher"));
 						} else {
 							alert("no");
 						}
@@ -3420,11 +3890,41 @@
 				});
 			}
 		},
+		cancel: function (batid) {
+			//点击取消登记
+			if ($("#selectState option:selected").val() == "sel_delete" && batid != null) {
+				if (confirm("确认取消登记吗？")) {
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/teacher/cancel/" + batid,
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								alert("已成功取消登记");
+								location.reload(true);
+							} else {
+								alert("no");
+							}
+						}
+					});
+				}
+			}
+		},
+		componentDidMount: function () {
+			ReactDOM.render(React.createElement(TableRender, null), document.getElementById("teacher_infor"));
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+		},
+		padingclick: function (e) {
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+			var text = e.target.textContent;
+			filldata(result, text);
+		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
-			//console.log(result);
-			var i = -1;
+			//	console.log(result);
 			return React.createElement(
 				"div",
 				{ id: "TeacherTest" },
@@ -3439,103 +3939,115 @@
 					"\u8FD9\u91CC\u662F\u60A8\u7684\u5B9E\u9A8C\u5BA4\u8BFE\u7A0B\u5B89\u6392:"
 				),
 				React.createElement(
+					"select",
+					{ id: "selectState" },
+					React.createElement(
+						"option",
+						{ value: "sel_checkstu" },
+						"\u67E5\u770B\u767B\u8BB0\u5B66\u751F\u72B6\u6001"
+					),
+					React.createElement(
+						"option",
+						{ value: "sel_delete" },
+						"\u53D6\u6D88\u767B\u8BB0\u72B6\u6001"
+					)
+				),
+				React.createElement("div", { id: "teacher_infor", ref: "teacher_infor", onClick: event => {
+						this.checkstu(event.target.getAttribute("batid")), this.cancel(event.target.getAttribute("batid"));
+					} }),
+				React.createElement(
 					"ul",
-					{ className: "teacher_infor" },
+					{ id: "paging", onClick: this.padingclick },
 					React.createElement(
 						"li",
 						null,
-						React.createElement(
-							"span",
-							null,
-							"\u6279\u6B21\u7F16\u53F7"
-						),
-						React.createElement(
-							"span",
-							{ className: "item_name" },
-							"\u5B9E\u9A8C\u540D\u79F0"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6559\u5E08\u59D3\u540D"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u5730\u70B9"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u65E5\u671F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u8282\u6B21"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B66\u751F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u53D6\u6D88"
-						)
+						"1"
 					),
-					result.map(function (result) {
-						i++;
-						return React.createElement(
-							"li",
-							{ key: i },
-							React.createElement(
-								"span",
-								null,
-								result.batid
-							),
-							React.createElement(
-								"span",
-								{ className: "item_name" },
-								ajaxgetitemname(result.itemid)
-							),
-							React.createElement(
-								"span",
-								{ className: "tea_name" },
-								ajaxgetteaname(result.teaid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.laboratory
-							),
-							React.createElement(
-								"span",
-								null,
-								result.date
-							),
-							React.createElement(
-								"span",
-								null,
-								result.segmentation
-							),
-							React.createElement(
-								"span",
-								{ className: "checkstu", onClick: event => {
-										event.stopPropagation(), this.checkstu(result.batid);
-									} },
-								"\u67E5\u770B\u767B\u8BB0\u5B66\u751F"
-							),
-							React.createElement(
-								"span",
-								{ className: "checkstu", onClick: event => {
-										event.stopPropagation(), this.cancel(result.batid);
-									} },
-								"\u53D6\u6D88"
-							)
-						);
-					}.bind(this))
+					React.createElement(
+						"li",
+						null,
+						"2"
+					),
+					React.createElement(
+						"li",
+						null,
+						"3"
+					),
+					React.createElement(
+						"li",
+						null,
+						"4"
+					),
+					React.createElement(
+						"li",
+						null,
+						"5"
+					),
+					React.createElement(
+						"li",
+						null,
+						"6"
+					),
+					React.createElement(
+						"li",
+						null,
+						"7"
+					),
+					React.createElement(
+						"li",
+						null,
+						"8"
+					),
+					React.createElement(
+						"li",
+						null,
+						"9"
+					),
+					React.createElement(
+						"li",
+						null,
+						"10"
+					),
+					React.createElement(
+						"li",
+						null,
+						"11"
+					),
+					React.createElement(
+						"li",
+						null,
+						"12"
+					),
+					React.createElement(
+						"li",
+						null,
+						"13"
+					),
+					React.createElement(
+						"li",
+						null,
+						"14"
+					),
+					React.createElement(
+						"li",
+						null,
+						"15"
+					),
+					React.createElement(
+						"li",
+						null,
+						"16"
+					),
+					React.createElement(
+						"li",
+						null,
+						"17"
+					),
+					React.createElement(
+						"li",
+						null,
+						"18"
+					)
 				)
 			);
 		}
@@ -4061,82 +4573,116 @@
 			this.state.result = result;
 			//	console.log(result);
 		},
-		deleteclick: function (batid) {
+		checkclick: function (batid) {
 			//点击登记跳出窗口询问是否登记
 			//console.log(e.target.textContent);
-			if (confirm("确认登记吗？")) {
-				$.ajax({
-					url: "http://yiranblade.cn/lbms/teacher/make/" + username + "/" + batid,
-					type: "GET",
-					dataType: "json",
-					success: function (data) {
-						if (data.code == "200") {
-							alert("登记成功");
-							location.reload(true);
-						} else {
-							alert("登记失败");
+			if (batid != null) {
+				if (confirm("确认登记吗？")) {
+					$.ajax({
+						url: "http://yiranblade.cn/lbms/teacher/make/" + username + "/" + batid,
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							if (data.code == "200") {
+								alert("登记成功");
+								location.reload(true);
+							} else {
+								alert("登记失败");
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		},
+		// 	componentDidMount:function(){
+		// 		var ul=this.refs.admin_infor; //获取dom节点
+		// 		lis=ul.childNodes;
+		// 	//	console.log(lis);
+		// 		for(var i=0;i<lis.length-1;i++)
+		// 		{
+		// 			var tag=0; 			
+		// 	for(var j=0;j<lis.length;j++)
+		// 			{
+		// 				if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+		// 					tag++;
+		// 			}			
+		// 	if(tag==1){lis[i+1].lastChild.style.display="none";}
+		// 	if(lis[i].firstChild.innerHTML==lis[i+1].firstChild.innerHTML)
+		// 			{
+		// 				lis[i+1].lastChild.style.display="none";
+		// 				lis[i+1].style.display="none";
+		// 			}
+		// 		}
+		// 	},
+		// 	appear:function(e){
+		// 		var tag=0;
+		// if(e.target.src.indexOf("appear")!=-1)
+		// {
+		// 	var target=e.target.parentNode; //获取当前点击的li
+		//  	var ul=this.refs.admin_infor; //获取dom节点
+		//   	lis=ul.childNodes;
+		//   	e.target.src="build/img/close.png";
+
+		// 	for(var i=0;i<lis.length-1;i++)
+		// 	{
+		// 		if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+		// 		{
+		// 			lis[i+1].style.display="block";
+		// 		}
+		// 	}
+		// }
+		// else{
+		// 	var target=e.target.parentNode; //获取当前点击的li
+		//   	var ul=this.refs.admin_infor; //获取dom节点
+		//   	lis=ul.childNodes;		  	
+		//   	e.target.src="build/img/appear.png";
+
+		//  		for(var i=0;i<lis.length-1;i++)
+		//  		{
+		//  			if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+		//  			{
+		//  				lis[i+1].style.display="none";
+		//  				if(target.firstChild.innerHTML!=lis[i+1].firstChild.innerHTML)
+		//  				{  					
+		//  					for(var j=0;j<lis.length;j++)
+		//  					{
+		//  						if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+		//  							tag++;
+		//  					}
+		//  					if(tag==1){lis[i+1].lastChild.style.display="none";}
+		//  					lis[i+1].style.display="block";
+		//  				}
+		//  			}
+		//  		}
+		// }
+		// 	},
 		componentDidMount: function () {
-			var ul = this.refs.admin_infor; //获取dom节点
-			lis = ul.childNodes;
-			//	console.log(lis);
-			for (var i = 0; i < lis.length - 1; i++) {
-				var tag = 0;
-				for (var j = 0; j < lis.length; j++) {
-					if (lis[i + 1].firstChild.innerHTML == lis[j].firstChild.innerHTML) tag++;
-				}
-				if (tag == 1) {
-					lis[i + 1].lastChild.style.display = "none";
-				}
-				if (lis[i].firstChild.innerHTML == lis[i + 1].firstChild.innerHTML) {
-					lis[i + 1].lastChild.style.display = "none";
-					lis[i + 1].style.display = "none";
-				}
-			}
+			ReactDOM.render(React.createElement(TableRender, null), document.getElementById("teacher_infor"));
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
 		},
-		appear: function (e) {
-			var tag = 0;
-			if (e.target.src.indexOf("appear") != -1) {
-				var target = e.target.parentNode; //获取当前点击的li
-				var ul = this.refs.admin_infor; //获取dom节点
-				lis = ul.childNodes;
-				e.target.src = "build/img/close.png";
-
-				for (var i = 0; i < lis.length - 1; i++) {
-					if (target.firstChild.innerHTML == lis[i].firstChild.innerHTML) {
-						lis[i + 1].style.display = "block";
+		padingclick: function (e) {
+			this.ajaxchange(this.props.data);
+			var result = this.state.result;
+			var text = e.target.textContent;
+			filldata(result, text);
+			$.ajax({
+				url: "http://yiranblade.cn/lbms/batch/teacher/" + username + "&1",
+				type: "GET",
+				dataType: "json",
+				success: function (data) {
+					if (data.code == "200") {
+						filldata(data.data.recordList, text, 1);
+					} else {
+						alert("no");
 					}
 				}
-			} else {
-				var target = e.target.parentNode; //获取当前点击的li
-				var ul = this.refs.admin_infor; //获取dom节点
-				lis = ul.childNodes;
-				e.target.src = "build/img/appear.png";
-
-				for (var i = 0; i < lis.length - 1; i++) {
-					if (target.firstChild.innerHTML == lis[i].firstChild.innerHTML) {
-						lis[i + 1].style.display = "none";
-						if (target.firstChild.innerHTML != lis[i + 1].firstChild.innerHTML) {
-							for (var j = 0; j < lis.length; j++) {
-								if (lis[i + 1].firstChild.innerHTML == lis[j].firstChild.innerHTML) tag++;
-							}
-							if (tag == 1) {
-								lis[i + 1].lastChild.style.display = "none";
-							}
-							lis[i + 1].style.display = "block";
-						}
-					}
-				}
-			}
+			});
 		},
 		render: function () {
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
-			var i = -1;
+			//	console.log(result);
 			return React.createElement(
 				"div",
 				{ id: "TeaTestdis" },
@@ -4150,85 +4696,102 @@
 					null,
 					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u8C03\u6574\u5B9E\u9A8C\u5BA4\u5217\u8868:"
 				),
+				React.createElement("div", { id: "teacher_infor", ref: "teacher_infor", onClick: event => {
+						this.checkclick(event.target.getAttribute("batid"));
+					} }),
 				React.createElement(
 					"ul",
-					{ className: "admin_infor", ref: "admin_infor" },
+					{ id: "paging", onClick: this.padingclick },
 					React.createElement(
 						"li",
 						null,
-						React.createElement(
-							"span",
-							{ className: "it_name" },
-							"\u5B9E\u9A8C\u540D\u79F0"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u6279\u6B21\u7F16\u53F7"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u5730\u70B9"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u5B9E\u9A8C\u65E5\u671F"
-						),
-						React.createElement(
-							"span",
-							null,
-							"\u8282\u6B21"
-						),
-						React.createElement(
-							"span",
-							{ className: "stu_del" },
-							"\u767B\u8BB0"
-						)
+						"1"
 					),
-					result.map(function (result) {
-						i++;
-						return React.createElement(
-							"li",
-							{ key: i },
-							React.createElement(
-								"span",
-								{ className: "item_name" },
-								ajaxgetitemname(result.itemid)
-							),
-							React.createElement(
-								"span",
-								null,
-								result.batid
-							),
-							React.createElement(
-								"span",
-								null,
-								result.laboratory
-							),
-							React.createElement(
-								"span",
-								null,
-								result.date
-							),
-							React.createElement(
-								"span",
-								null,
-								result.segmentation
-							),
-							React.createElement(
-								"span",
-								{ onClick: event => {
-										event.stopPropagation(), this.deleteclick(result.batid);
-									}, className: "stu_delete" },
-								"\u767B\u8BB0"
-							),
-							React.createElement("img", { src: "build/img/appear.png", id: "tu", onClick: event => {
-									event.stopPropagation(), this.appear(event);
-								} })
-						);
-					}.bind(this))
+					React.createElement(
+						"li",
+						null,
+						"2"
+					),
+					React.createElement(
+						"li",
+						null,
+						"3"
+					),
+					React.createElement(
+						"li",
+						null,
+						"4"
+					),
+					React.createElement(
+						"li",
+						null,
+						"5"
+					),
+					React.createElement(
+						"li",
+						null,
+						"6"
+					),
+					React.createElement(
+						"li",
+						null,
+						"7"
+					),
+					React.createElement(
+						"li",
+						null,
+						"8"
+					),
+					React.createElement(
+						"li",
+						null,
+						"9"
+					),
+					React.createElement(
+						"li",
+						null,
+						"10"
+					),
+					React.createElement(
+						"li",
+						null,
+						"11"
+					),
+					React.createElement(
+						"li",
+						null,
+						"12"
+					),
+					React.createElement(
+						"li",
+						null,
+						"13"
+					),
+					React.createElement(
+						"li",
+						null,
+						"14"
+					),
+					React.createElement(
+						"li",
+						null,
+						"15"
+					),
+					React.createElement(
+						"li",
+						null,
+						"16"
+					),
+					React.createElement(
+						"li",
+						null,
+						"17"
+					),
+					React.createElement(
+						"li",
+						null,
+						"18"
+					)
 				)
 			);
 		}

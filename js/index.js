@@ -114,7 +114,161 @@ function ajaxgetteaname(teaid){
  		});	
 	return teaname;
 }
+//表格渲染
+var TableRender=React.createClass({
+	render:function(){
+		return(
+		    <table>
+		    	<caption>第<span id="weeknum"></span>周</caption>
+		   		<tbody>
+				<tr>
+					<th></th>
+					<th data-week="1">周一</th>
+					<th data-week="2">周二</th>
+					<th data-week="3">周三</th>
+					<th data-week="4">周四</th>
+					<th data-week="5">周五</th>
+					<th data-week="6">周六</th>
+					<th data-week="0">周末</th>
+				</tr>				
+				<tr>
+					<td>1-2</td>
+					<td data-lab="1" data-week="1"></td>
+					<td data-lab="1" data-week="2"></td>
+					<td data-lab="1" data-week="3"></td>
+					<td data-lab="1" data-week="4"></td>
+					<td data-lab="1" data-week="5"></td>
+					<td data-lab="1" data-week="6"></td>
+					<td data-lab="1" data-week="7"></td>
+				</tr>
+				<tr>
+					<td>3-4</td>
+					<td data-lab="2" data-week="1"></td>
+					<td data-lab="2" data-week="2"></td>
+					<td data-lab="2" data-week="3"></td>
+					<td data-lab="2" data-week="4"></td>
+					<td data-lab="2" data-week="5"></td>
+					<td data-lab="2" data-week="6"></td>
+					<td data-lab="2" data-week="7"></td>
+				</tr>
+				<tr>
+					<td>中午</td>
+					<td data-lab="中午" data-week="1"></td>
+					<td data-lab="中午" data-week="2"></td>
+					<td data-lab="中午" data-week="3"></td>
+					<td data-lab="中午" data-week="4"></td>
+					<td data-lab="中午" data-week="5"></td>
+					<td data-lab="中午" data-week="6"></td>
+					<td data-lab="中午" data-week="7"></td>
+				</tr>
+				<tr>
+					<td>5-6</td>
+					<td data-lab="3" data-week="1"></td>
+					<td data-lab="3" data-week="2"></td>
+					<td data-lab="3" data-week="3"></td>
+					<td data-lab="3" data-week="4"></td>
+					<td data-lab="3" data-week="5"></td>
+					<td data-lab="3" data-week="6"></td>
+					<td data-lab="3" data-week="7"></td>
+				</tr>
+				<tr>
+					<td>7-8</td>
+					<td data-lab="4" data-week="1"></td>
+					<td data-lab="4" data-week="2"></td>
+					<td data-lab="4" data-week="3"></td>
+					<td data-lab="4" data-week="4"></td>
+					<td data-lab="4" data-week="5"></td>
+					<td data-lab="4" data-week="6"></td>
+					<td data-lab="4" data-week="7"></td>
+				</tr>
+				<tr>
+					<td>晚上</td>
+					<td data-lab="5" data-week="1"></td>
+					<td data-lab="5" data-week="2"></td>
+					<td data-lab="5" data-week="3"></td>
+					<td data-lab="5" data-week="4"></td>
+					<td data-lab="5" data-week="5"></td>
+					<td data-lab="5" data-week="6"></td>
+					<td data-lab="5" data-week="7"></td>
+				</tr>
+				</tbody>
+			</table>
+		)
+	}
+});
+//填充数据
+function filldata(result,text,disclick){
+	var termdate=new Date(2017,2-1,27); //开学的时间
+	termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
+//	console.log(result);
 
+	//设置标题的周数
+	var caption=document.getElementById("weeknum");
+	caption.innerHTML=text;
+
+	if(disclick!=1&&disclick!=3)
+	{
+		var tds=document.getElementsByTagName("td");//初始化
+		for(var i=0;i<tds.length;i++)
+		{
+			if(i!=0&&i!=8&&i!=16&&i!=24&&i!=32&&i!=40&&i!=48)
+			{
+				tds[i].innerHTML="";
+				tds[i].removeAttribute("batid");
+				tds[i].style.cursor="default";
+				tds[i].style.background="rgb(246,241,241)";
+			}
+		}
+	}
+ 	for(let list of result)
+	{					
+		var listdate=list.date.split("-");
+		var date=new Date(listdate[0],listdate[1]-1,listdate[2]); //该课程的时间
+		var datemsec=date.getTime(); //课程时间距 1970-01-01 
+		datemsec=datemsec-termmsec;
+		datemsec=datemsec/1000/60/60/24;
+		datemsec=Math.floor(datemsec/7)+1; //距现在的周数
+	//	console.log("text:"+text+" datemsec:"+datemsec);
+		if(text==datemsec) //若周期和点击获取的text相等则渲染到页面里
+		{
+	//		console.log(list);
+			var teaname=ajaxgetteaname(list.teaid); //根据教师id获取教师姓名
+			var itemname=ajaxgetitemname(list.itemid); //根据项目批次id获取项目名称
+			var listdate=list.date.split("-");
+			var date=new Date(listdate[0],listdate[1]-1,listdate[2]); //该课程的时间
+			
+			var week=date.getDay(); //获取当前星期
+			if(week==0) week=7;
+
+			var tds=document.getElementsByTagName("td");
+			var seg=list.segmentation;
+
+			if(seg<=2) seg=seg-1;
+			if(seg>2||seg<5) seg=seg;
+			if(seg=="中午") seg=2;
+			if(seg>5||seg=="晚上") seg=5;
+			tds[seg*8+week].innerHTML="<a class=td_a/>"
+			tds[seg*8+week].firstChild.innerHTML=list.laboratory+"<br/>"+itemname;
+			tds[seg*8+week].firstChild.setAttribute("title",list.laboratory+"\n"+itemname+"\n"+teaname+"\n"+list.date);
+			if(disclick!=1)
+			{
+				tds[seg*8+week].style.cursor="pointer";
+				tds[seg*8+week].firstChild.setAttribute("batid",list.batid);
+				tds[seg*8+week].firstChild.setAttribute("date",list.date);
+				tds[seg*8+week].firstChild.setAttribute("itemid",list.itemid);
+				tds[seg*8+week].firstChild.setAttribute("laboratory",list.laboratory);
+				tds[seg*8+week].firstChild.setAttribute("segmentation",list.segmentation);
+				tds[seg*8+week].firstChild.setAttribute("teaid",list.teaid);		
+				tds[seg*8+week].style.background="white";
+			}
+			if(disclick==3)
+			{	
+				tds[seg*8+week].style.background="#DDD";
+			}
+		//	console.log(tds[seg*8+week].getAttribute("batid"));
+		}
+	}
+}
  //学生管理模块
  //学生管理-个人信息组件
  var PersonInformation=React.createClass({
@@ -299,6 +453,16 @@ function ajaxgetteaname(teaid){
 	 		}
  		});
   	},
+  	componentDidMount:function(){
+  		ReactDOM.render(	<TableRender />,  document.getElementById("student_infor"));
+  	},
+  	padingclick:function(e){
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  		var text=e.target.textContent;
+  	//	console.log(result);
+  		filldata(result,text);
+  	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
@@ -309,25 +473,14 @@ function ajaxgetteaname(teaid){
  				<div className="title">
 	     		 查看已确认实验
 	    		</div>
- 				<ul className="student_infor">
- 					<li><span>批次编号</span><span className="stu_item">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span><span>成绩</span></li>
-	    			{
-		    			result.map(function(result){
-		    				i++;
-		    				return(
-		    					<li key={i}>
-		    						<span>{result.batid}</span>
-		    						<span className="stu_item">{ajaxgetitemname(result.itemid)}</span>
-		    						<span>{ajaxgetteaname(result.teaid)}</span>
-		    						<span>{result.laboratory}</span>
-		    						<span>{result.date}</span>
-		    						<span>{result.segmentation}</span>
-		    						<span className="getgrade" onClick={(event)=>{event.stopPropagation(),this.getgrade(result.batid);}}>获取成绩</span>
-					    		</li>
-		    				)
-		    			}.bind(this))
-	    			}
- 				</ul>
+ 				<div id="student_infor" ref="student_infor" onClick={(event)=>{this.getgrade(event.target.getAttribute("batid"))}}>
+
+	    		</div>
+	    		<ul id="paging" onClick={this.padingclick}>
+	    			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+	    			<li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+	    			<li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
+	    		</ul>
  			</div>
  		)
  	}
@@ -400,6 +553,16 @@ function ajaxgetteaname(teaid){
 	 		}
  		});		
   	},
+  	componentDidMount:function(){
+  		ReactDOM.render(	<TableRender />,  document.getElementById("student_infor"));
+  	},
+  	padingclick:function(e){
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  		var text=e.target.textContent;
+  	//	console.log(result);
+  		filldata(result,text);
+  	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
@@ -411,26 +574,13 @@ function ajaxgetteaname(teaid){
 	     		 	待确认实验
 	    		</div>
 	    		<h4>这里是全部项目批次:</h4>
-	    		<ul className="admin_infor" id="posit">
-	    			<li><span>批次编号</span><span className="it_name">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span>
-	    				<span className="stu_del">确认</span>
-	    			</li>
-	    			{
-		    			result.map(function(result){
-		    				i++;
-		    				return(
-		    					<li key={i}>
-		    						<span>{result.batid}</span>
-		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-		    						<span>{ajaxgetteaname(result.teaid)}</span>
-		    						<span>{result.laboratory}</span>
-		    						<span>{result.date}</span>
-		    						<span>{result.segmentation}</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.orderclick(result.batid,result.itemid); } } className="stu_delete">确认</span>
-					    		</li>
-		    				)
-		    			}.bind(this))
-	    			}
+	    		<div id="student_infor" ref="student_infor" onClick={(event)=>{this.orderclick(event.target.getAttribute("batid"),event.target.getAttribute("itemid"))}}>
+
+	    		</div>
+	    		<ul id="paging" onClick={this.padingclick}>
+	    			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+	    			<li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+	    			<li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
 	    		</ul>
  			</div>
  		)
@@ -1157,7 +1307,7 @@ $(".stuent_order").click(function(){
  		)
  	}
  });
-  //管理员管理-项目管理
+   //管理员管理-项目管理
  var AdminTest=React.createClass({
  	getInitialState: function () {
 	    return{
@@ -1343,39 +1493,73 @@ $(".stuent_order").click(function(){
   	deleteclick:function(batid){
   		//点击删除跳出窗口询问是否删除
   		//console.log(e.target.textContent);
-  		if(confirm("确认删除吗？"))
+  		if(batid!=null&&$("#selectState option:selected").val()=="sel_delete")
   		{
-  			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/batch/"+batid,
-		 		type:"DELETE",	
-		 		dataType:"json",  
-		 		success:function(data){
-		 			if(data.code=="200")
-		 			{
-		 				alert("删除成功");
-		 				location.reload(true);
-		 			}
-		 			else{
-		 				alert("删除失败");
-		 			}
-		 		}
- 			});
+	  		if(confirm("确认删除吗？"))
+	  		{
+	  			$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/batch/"+batid,
+			 		type:"DELETE",	
+			 		dataType:"json",  
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{
+			 				alert("删除成功");
+			 			//	location.reload(true);
+			 			}
+			 			else{
+			 				alert("删除失败");
+			 			}
+			 		}
+	 			});
+	  		}
   		}
   	},
   	reviseclick:function(batid,itemid,teaid,lab,date,seg){
   		//点击修改跳转至修改页面
-  		ReactDOM.render(	<AdminReTestdis batid={batid} itemid={itemid} teaid={teaid} lab={lab} date={date} seg={seg}/>,  document.getElementById("info_admin"));
+  	//	console.log(batid+itemid+teaid+lab+date+seg);
+  		if(batid!=null&&$("#selectState option:selected").val()=="sel_revise")
+  		{
+  			ReactDOM.render(	<AdminReTestdis batid={batid} itemid={itemid} teaid={teaid} lab={lab} date={date} seg={seg}/>,  document.getElementById("info_admin"));
+  		}
   	},
   	getstuclick:function(batid){
   		//点击获取该实验批次的学生
+  		if(batid!=null&&$("#selectState option:selected").val()=="sel_checkstu")
+  		{
+	  		$.ajax({	
+		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
+		 		type:"GET",	
+		 		dataType:"json",
+		 		success:function(data){
+		 			if(data.code=="200")
+		 			{ 	
+		 				ReactDOM.render(	<AdminGetstu data={data}/>,  document.getElementById("info_admin"));
+		 			}
+		 			else{
+		 				alert("no");
+		 			}
+		 		}
+	 		});
+ 		}
+  	},
+  	componentDidMount:function(){
+  		ReactDOM.render(	<TableRender />,  document.getElementById("admin_infor"));
+  	},
+  	padingclick:function(e){
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  		var text=e.target.textContent;
+  		filldata(result,text);
+  		//添加待通过确认的项目
   		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
+	 		url:"http://yiranblade.cn/lbms/batch/needapprove",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
 	 			if(data.code=="200")
 	 			{ 	
-	 				ReactDOM.render(	<AdminGetstu data={data}/>,  document.getElementById("info_admin"));
+	 				filldata(data.data,text,3);
 	 			}
 	 			else{
 	 				alert("no");
@@ -1383,45 +1567,241 @@ $(".stuent_order").click(function(){
 	 		}
  		});
   	},
+  	// addselect:function(e){
+  	// 	console.log(e.target.parentNode);
+  	// 	var div=document.createElement("div");
+  	// 	div.className="addselect";
+  	// 	e.target.parentNode.appendChild(div);
+  	// 	temp.className="addselect";
+  	// },
+  	// removeselect:function(e){
+  	// 	if(e.target.parentNode.lastChild.className=="addselect")
+  	// 	{
+  	//		e.target.parentNode.removeChild(e.target.parentNode.lastChild);
+  	// 	}
+  	// },
+  	additemdis:function(e){
+
+  		if($("#selectState option:selected").val()=="sel_additemdis")
+  		{ 	 
+  			//若点击"ok"则设置批次
+  			if(e.target.textContent=="ok")
+  			{
+  				var day=e.target.parentNode.getAttribute("data-week");
+  				day=parseInt(day);
+  				var week=$("#weeknum").html();
+  				var date=(week-1)*7+day;
+  				date=date*24*60*60*1000;
+  				var termdate=new Date(2017,2-1,27); //开学的时间
+				termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
+				date=new Date(termmsec+date);
+				var myyear=date.getFullYear();//获取年
+			    var mymonth=date.getMonth()+1;//获取月
+			    var mydate=date.getDate()-1;//获取日
+
+  				var testdis={
+		 			itemid:e.target.parentNode.firstChild.value,
+			 		teaid:e.target.previousSibling.value,
+			 		laboratory:$("#selectPlace option:selected").val(),
+			 		date:myyear+"-"+mymonth+"-"+mydate,
+			 		segmentation:e.target.parentNode.getAttribute("data-lab"),
+		 		};
+	 			console.log(JSON.stringify(testdis));
+	 			if(confirm("确认添加吗？"))
+	 			{
+			 		$.ajax({	
+				 		url:"http://yiranblade.cn/lbms/batch",
+				 		type:"POST",	
+				 		dataType:"json", 
+				 		"contentType":"application/json",  
+				 		data:JSON.stringify(testdis),
+				 		success:function(data){
+				 			if(data.code=="200")
+				 			{
+				 				alert("成功添加,信息已保存")
+				 			}
+				 			else{
+				 				alert("保存失败");
+				 			}
+				 		},
+				 		error:function(){
+				 			alert("出错了");
+				 		}
+			 		});
+		 		}
+  			}
+  			//添加地点
+  			if($("#selectPlace option:selected").val()==undefined)
+  			{
+  				var selectPlace=document.getElementById("selectPlace");
+			 	var option=document.createElement("option");
+			 	option.innerHTML="fz123";
+			 	option.style.value="fz123";
+			 	selectPlace.appendChild(option);
+			 	var option=document.createElement("option");
+			 	option.innerHTML="fz134";
+			 	option.style.value="fz134";
+			 	selectPlace.appendChild(option);
+			 	var option=document.createElement("option");
+			 	option.innerHTML="a222";
+			 	option.style.value="a222";
+			 	selectPlace.appendChild(option);
+			 	var option=document.createElement("option");
+			 	option.innerHTML="b345";
+			 	option.style.value="b345";
+			 	selectPlace.appendChild(option);
+			 	var option=document.createElement("option");
+			 	option.innerHTML="ff106";
+			 	option.style.value="ff106";
+			 	selectPlace.appendChild(option);
+			 	var option=document.createElement("option");
+			 	option.innerHTML="ff207";
+			 	option.style.value="ff207";
+			 	selectPlace.appendChild(option);
+
+			}
+		//	console.log($("#weeknum").html());
+  			if($("#weeknum").html()=="" && $("#selectPlace option:selected").val()!=undefined)
+  			{
+  				alert("您还没有选择第几周");
+  			}
+  		//	console.log(e.target.textContent);
+  			//添加实验名称和教师名称
+  			if($("#selectPlace option:selected").val()!=undefined && $("#weeknum").html()!="" && e.target.textContent=="")
+  			{
+	  			var itemselect=document.createElement("select");
+	  			var teaselect=document.createElement("select");
+	  			//添加第一个教师值为""
+	  			var option=document.createElement("option");
+				option.innerHTML="";
+				option.value="";
+				teaselect.appendChild(option);
+
+	  			var divok=document.createElement("div");
+	  			divok.innerHTML="ok";
+
+	  			e.target.appendChild(itemselect);
+	  			e.target.appendChild(teaselect);
+	  			e.target.appendChild(divok);
+	  			//添加实验名称
+	  			 $.ajax({	
+			 		url:"http://yiranblade.cn/lbms/item/page/1",
+			 		type:"GET",	
+			 		dataType:"json",
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{ 	
+			 			//	console.log(data);
+			 				for(var place of data.data.recordList)
+			 				{
+			 					var option=document.createElement("option");
+			 					var itemname=ajaxgetitemname(place.itemid);
+			 					option.innerHTML=itemname;
+			 					option.value=place.itemid;
+			 					itemselect.appendChild(option);
+			 				}
+			 			}
+			 			else{
+			 				alert("no");
+			 			}
+			 		}
+				});	
+				//添加教师名称
+				$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/teacher/page/1",
+			 		type:"GET",	
+			 		dataType:"json",
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{ 	
+			 			//	console.log(data);
+			 				for(var place of data.data.recordList)
+			 				{
+			 					var option=document.createElement("option");
+			 					option.innerHTML=place.name;
+			 					option.value=place.teaid;
+			 					teaselect.appendChild(option);
+			 				}
+			 			}
+			 			else{
+			 				alert("no");
+			 			}
+			 		}
+				});	
+			}		
+  		}
+  	},
+  	agree:function(batid){
+  		var user;
+  		user=prompt("请输入你想要的操作：【1为同意，2为拒绝，3为取消】");
+  		if(user==1)
+  		{
+  			if(confirm("确认同意吗？"))
+  			{
+	  			$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/batch/approve/"+batid,
+			 		type:"GET",	
+			 		dataType:"json",  
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{
+			 				alert("项目已成功添加");
+			 				location.reload(true);
+			 			}
+			 			else{
+			 				alert("已拒绝");
+			 			}
+			 		}
+	 			});
+  			}
+  		}
+  		else if(user==2)
+  		{
+  			if(confirm("确认拒绝吗？"))
+	  		{
+		  		$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+			 		type:"GET",	
+			 		dataType:"json",
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{ 	
+			 				alert("已拒绝");
+			 				location.reload(true);
+			 			}
+			 			else{
+			 				alert("出错了");
+			 			}
+			 		}
+		 		});
+	 		}
+  		}
+  	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
- 		//console.log(result.length);
+ 	//	console.log(result);
  		var i=-1;
- 		var name=result[i+1];
  		return(
  			<div id="AdminTestdis">
  				<div className="title">
 	     		 	项目批次管理
 	    		</div>
 	    		<h4>这里是全部项目批次:</h4>
-	    		<ul className="admin_infor">
-	    			<li><span className="it_name">实验名称</span><span>批次编号</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span>
-	    				<span className="stu_del">删除</span><span className="stu_re">修改</span><span className="stu_s">学生</span>
-	    			</li>
-	    			{
-		    			result.map(function(result){
-		    				// var name=ajaxgetitemname(result.itemid);
-		    				// var div=document.getElementById(".admin_infor");
-		    				// console.log(div[0]);		    				
-		    				// if(ajaxgetitemname(result.itemid)!=name)
-			    			// 		return <span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-		    				i++;
-		    				return(
-		    					<li key={i}>
-		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-		    						<span>{result.batid}</span>
-		    						<span>{ajaxgetteaname(result.teaid)}</span>
-		    						<span>{result.laboratory}</span>
-		    						<span>{result.date}</span>
-		    						<span>{result.segmentation}</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">删除</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.reviseclick(result.batid,result.itemid,result.teaid,result.laboratory,result.date,result.segmentation); } } className="stu_revise">修改</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.getstuclick(result.batid); } } className="stu_stu">查看登记学生</span>					    		
-		    					</li>
-		    				)		    				
-		    			}.bind(this))
-	    			}
+	    		<select id="selectState">
+	    			<option value="sel_revise">修改状态</option>	    			
+	    			<option value="sel_delete">删除状态</option>	    			
+	    			<option value="sel_checkstu">查看登记学生状态</option>
+	    			<option value="sel_additemdis">增加项目批次状态</option>
+	    		</select>
+	    		<select id="selectPlace"></select>	    				    			    		
+	    		<div id="admin_infor" ref="admin_infor" onClick={(event)=>{if(event.target.parentNode.style.background=="rgb(221, 221, 221)")this.agree(event.target.getAttribute("batid"));else{this.getstuclick(event.target.getAttribute("batid")),this.reviseclick(event.target.getAttribute("batid"),event.target.getAttribute("itemid"),event.target.getAttribute("teaid"),event.target.getAttribute("laboratory"),event.target.getAttribute("date"),event.target.getAttribute("segmentation")),this.deleteclick(event.target.getAttribute("batid")),this.additemdis(event)}}}>
+
+	    		</div>
+	    		<ul id="paging" onClick={this.padingclick}>
+	    			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+	    			<li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+	    			<li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
 	    		</ul>
  			</div>
  		)
@@ -2056,34 +2436,16 @@ $(".admin_testorder").click(function(){
   	},
   	checkstu:function(batid){
   		//点击获取该实验批次的学生
-  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
-	 		type:"GET",	
-	 		dataType:"json",
-	 		success:function(data){
-	 			if(data.code=="200")
-	 			{ 	
-	 				ReactDOM.render(	<TeaGetstu data={data} batid={batid}/>,  document.getElementById("info_teacher"));
-	 			}
-	 			else{
-	 				alert("no");
-	 			}
-	 		}
- 		});
-  	},
-  	cancel:function(batid){
-		//点击取消登记
-		if(confirm("确认取消登记吗？"))
+  		if($("#selectState option:selected").val()=="sel_checkstu"&&batid!=null)
   		{
 	  		$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
 		 			if(data.code=="200")
 		 			{ 	
-		 				alert("已成功取消登记");
-		 				location.reload(true);
+		 				ReactDOM.render(	<TeaGetstu data={data} batid={batid}/>,  document.getElementById("info_teacher"));
 		 			}
 		 			else{
 		 				alert("no");
@@ -2092,36 +2454,62 @@ $(".admin_testorder").click(function(){
 	 		});
  		}
   	},
+  	cancel:function(batid){
+		//点击取消登记
+		if($("#selectState option:selected").val()=="sel_delete"&&batid!=null)
+  		{
+			if(confirm("确认取消登记吗？"))
+	  		{
+		  		$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+			 		type:"GET",	
+			 		dataType:"json",
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{ 	
+			 				alert("已成功取消登记");
+			 				location.reload(true);
+			 			}
+			 			else{
+			 				alert("no");
+			 			}
+			 		}
+		 		});
+	 		}
+ 		}
+  	},
+  	componentDidMount:function(){
+  		ReactDOM.render(	<TableRender />,  document.getElementById("teacher_infor"));
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  	},
+  	padingclick:function(e){
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  		var text=e.target.textContent;
+  		filldata(result,text);
+  	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
- 		//console.log(result);
- 		var i=-1;
+ 	//	console.log(result);
  		return(
  			<div id="TeacherTest">
  				<div className="title">
 	     		 	实验室课程安排
-	    		</div>
+	    		</div>	    		
 	    		<h4>这里是您的实验室课程安排:</h4>
-	    		<ul className="teacher_infor">
-	    			<li><span>批次编号</span><span className="item_name">实验名称</span><span>教师姓名</span><span>实验地点</span><span>实验日期</span><span>节次</span><span>学生</span><span>取消</span></li>
-	    			{
-		    			result.map(function(result){
-		    				i++;
-		    				return(
-		    					<li key={i}>
-		    						<span>{result.batid}</span>
-		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-		    						<span className="tea_name">{ajaxgetteaname(result.teaid)}</span>
-		    						<span>{result.laboratory}</span>
-		    						<span>{result.date}</span>
-		    						<span>{result.segmentation}</span>
-		    						<span className="checkstu" onClick={(event)=>{event.stopPropagation(),this.checkstu(result.batid);}}>查看登记学生</span>
-		    						<span className="checkstu" onClick={(event)=>{event.stopPropagation(),this.cancel(result.batid);}}>取消</span>
-					    		</li>
-		    				)
-		    			}.bind(this))
-	    			}
+	    		<select id="selectState">	    			
+	    			<option value="sel_checkstu">查看登记学生状态</option>
+	    			<option value="sel_delete">取消登记状态</option>
+	    		</select>
+	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkstu(event.target.getAttribute("batid")),this.cancel(event.target.getAttribute("batid"))} }>
+
+	    		</div>
+	    		<ul id="paging" onClick={this.padingclick}>
+	    			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+	    			<li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+	    			<li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
 	    		</ul>
  			</div>
  		)
@@ -2416,120 +2804,135 @@ $(".admin_testorder").click(function(){
  		this.state.result=result;
  	//	console.log(result);
   	},
-  	deleteclick:function(batid){
+  	checkclick:function(batid){
   		//点击登记跳出窗口询问是否登记
   		//console.log(e.target.textContent);
-  		if(confirm("确认登记吗？"))
+  		if(batid!=null)
   		{
-  			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/teacher/make/"+username+"/"+batid,
-		 		type:"GET",	
-		 		dataType:"json",  
-		 		success:function(data){
-		 			if(data.code=="200")
-		 			{
-		 				alert("登记成功");
-		 				location.reload(true);
-		 			}
-		 			else{
-		 				alert("登记失败");
-		 			}
-		 		}
- 			});
-  		}
-  	},
-  	componentDidMount:function(){
-  		var ul=this.refs.admin_infor; //获取dom节点
-  		lis=ul.childNodes;
-  	//	console.log(lis);
-  		for(var i=0;i<lis.length-1;i++)
-  		{
-  			var tag=0; 			
-			for(var j=0;j<lis.length;j++)
-  			{
-  				if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
-  					tag++;
-  			}			
-			if(tag==1){lis[i+1].lastChild.style.display="none";}
-			if(lis[i].firstChild.innerHTML==lis[i+1].firstChild.innerHTML)
-  			{
-  				lis[i+1].lastChild.style.display="none";
-  				lis[i+1].style.display="none";
-  			}
-  		}
-  	},
-  	appear:function(e){
-  		var tag=0;
-		if(e.target.src.indexOf("appear")!=-1)
-		{
-			var target=e.target.parentNode; //获取当前点击的li
-		 	var ul=this.refs.admin_infor; //获取dom节点
-		  	lis=ul.childNodes;
-		  	e.target.src="build/img/close.png";
-
-			for(var i=0;i<lis.length-1;i++)
-			{
-				if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
-				{
-					lis[i+1].style.display="block";
-				}
-			}
-		}
-		else{
-			var target=e.target.parentNode; //获取当前点击的li
-		  	var ul=this.refs.admin_infor; //获取dom节点
-		  	lis=ul.childNodes;		  	
-		  	e.target.src="build/img/appear.png";
-
-	  		for(var i=0;i<lis.length-1;i++)
+	  		if(confirm("确认登记吗？"))
 	  		{
-	  			if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
-	  			{
-	  				lis[i+1].style.display="none";
-	  				if(target.firstChild.innerHTML!=lis[i+1].firstChild.innerHTML)
-	  				{  					
-	  					for(var j=0;j<lis.length;j++)
-	  					{
-	  						if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
-	  							tag++;
-	  					}
-	  					if(tag==1){lis[i+1].lastChild.style.display="none";}
-	  					lis[i+1].style.display="block";
-	  				}
-	  			}
+	  			$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/teacher/make/"+username+"/"+batid,
+			 		type:"GET",	
+			 		dataType:"json",  
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{
+			 				alert("登记成功");
+			 				location.reload(true);
+			 			}
+			 			else{
+			 				alert("登记失败");
+			 			}
+			 		}
+	 			});
 	  		}
-		}
+  		}
+  	},
+  // 	componentDidMount:function(){
+  // 		var ul=this.refs.admin_infor; //获取dom节点
+  // 		lis=ul.childNodes;
+  // 	//	console.log(lis);
+  // 		for(var i=0;i<lis.length-1;i++)
+  // 		{
+  // 			var tag=0; 			
+		// 	for(var j=0;j<lis.length;j++)
+  // 			{
+  // 				if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+  // 					tag++;
+  // 			}			
+		// 	if(tag==1){lis[i+1].lastChild.style.display="none";}
+		// 	if(lis[i].firstChild.innerHTML==lis[i+1].firstChild.innerHTML)
+  // 			{
+  // 				lis[i+1].lastChild.style.display="none";
+  // 				lis[i+1].style.display="none";
+  // 			}
+  // 		}
+  // 	},
+  // 	appear:function(e){
+  // 		var tag=0;
+		// if(e.target.src.indexOf("appear")!=-1)
+		// {
+		// 	var target=e.target.parentNode; //获取当前点击的li
+		//  	var ul=this.refs.admin_infor; //获取dom节点
+		//   	lis=ul.childNodes;
+		//   	e.target.src="build/img/close.png";
+
+		// 	for(var i=0;i<lis.length-1;i++)
+		// 	{
+		// 		if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+		// 		{
+		// 			lis[i+1].style.display="block";
+		// 		}
+		// 	}
+		// }
+		// else{
+		// 	var target=e.target.parentNode; //获取当前点击的li
+		//   	var ul=this.refs.admin_infor; //获取dom节点
+		//   	lis=ul.childNodes;		  	
+		//   	e.target.src="build/img/appear.png";
+
+	 //  		for(var i=0;i<lis.length-1;i++)
+	 //  		{
+	 //  			if(target.firstChild.innerHTML==lis[i].firstChild.innerHTML)
+	 //  			{
+	 //  				lis[i+1].style.display="none";
+	 //  				if(target.firstChild.innerHTML!=lis[i+1].firstChild.innerHTML)
+	 //  				{  					
+	 //  					for(var j=0;j<lis.length;j++)
+	 //  					{
+	 //  						if(lis[i+1].firstChild.innerHTML==lis[j].firstChild.innerHTML)
+	 //  							tag++;
+	 //  					}
+	 //  					if(tag==1){lis[i+1].lastChild.style.display="none";}
+	 //  					lis[i+1].style.display="block";
+	 //  				}
+	 //  			}
+	 //  		}
+		// }
+  // 	},
+  	componentDidMount:function(){
+  		ReactDOM.render(	<TableRender />,  document.getElementById("teacher_infor"));
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  	},
+  	padingclick:function(e){
+  		this.ajaxchange(this.props.data);
+ 		var result = this.state.result;
+  		var text=e.target.textContent;
+  		filldata(result,text);
+  		$.ajax({	
+	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
+	 		type:"GET",	
+	 		dataType:"json",
+	 		success:function(data){
+	 			if(data.code=="200")
+	 			{ 	
+	 				filldata(data.data.recordList,text,1);
+	 			}
+	 			else{
+	 				alert("no");
+	 			}
+	 		}
+ 		});
   	},
  	render:function(){
  		this.ajaxchange(this.props.data);
  		var result = this.state.result;
- 		var i=-1;
+ 	//	console.log(result);
  		return(
  			<div id="TeaTestdis">
  				<div className="title">
 	     		 	可调整实验室列表
 	    		</div>
 	    		<h4>这里是全部可调整实验室列表:</h4>
-	    		<ul className="admin_infor" ref="admin_infor">
-	    			<li><span className="it_name">实验名称</span><span>批次编号</span><span>实验地点</span><span>实验日期</span><span>节次</span>
-	    				<span className="stu_del">登记</span>
-	    			</li>
-	    			{
-		    			result.map(function(result){
-		    				i++;
-		    				return(
-		    					<li key={i}>
-		    						<span className="item_name">{ajaxgetitemname(result.itemid)}</span>
-		    						<span>{result.batid}</span>
-		    						<span>{result.laboratory}</span>
-		    						<span>{result.date}</span>
-		    						<span>{result.segmentation}</span>
-					    			<span onClick={ (event)=>{event.stopPropagation(),this.deleteclick(result.batid); } } className="stu_delete">登记</span>
-					    			<img src="build/img/appear.png" id="tu" onClick={ (event)=>{event.stopPropagation(),this.appear(event); } }/>
-					    		</li>
-		    				)
-		    			}.bind(this))
-	    			}
+	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkclick(event.target.getAttribute("batid"))}}>
+
+	    		</div>
+	    		<ul id="paging" onClick={this.padingclick}>
+	    			<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+	    			<li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+	    			<li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
 	    		</ul>
  			</div>
  		)

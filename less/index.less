@@ -22,11 +22,14 @@ body{
 @border-style:2px solid #BEBEBE;
 @shadow-style:4px 4px 4px #888;
 @hover-color:#FF3333;
+@tableborder-style:1px solid #BEBEBE;
 .line-h(@line-h){
 	height:@line-h;
 	line-height:@line-h;
 }
-
+h4{
+	color:#888;
+}
 .border{
 	border:2px solid #BEBEBE;
 }
@@ -355,6 +358,59 @@ body{
 	#AdminAddTestdis,#AdminReTestdis{
 		#TeacherStuinfo;
 	}
+	//管理员-待通过项目管理
+	#TestOrder{
+
+		h4{
+			margin-top:10px;
+			text-align:left;
+			padding-left:40px;
+			color:#666;
+			font-weight:normal;
+
+			.stu_add{
+				color:#888;
+				cursor:pointer;
+				margin-left:20px;
+
+				&:hover{
+					color:@hover-color;
+				}
+			}
+		}
+		.admin_infor{
+			margin-top:10px;
+
+			li{
+				.line-h(25px);
+				float:left;
+				margin-left:10px;
+
+				span{
+					.line-h(25px);
+					display:block;
+					float:left;
+					background-color:white;
+					width:100px;
+
+					&:first-child{
+						width:180px;
+					}
+					&:nth-child(3){
+						width:200px;
+					}
+				}
+				.stu_delete,.stu_revise,.stu_adddis{
+					color:#888;
+					cursor:pointer;
+
+					&:hover{
+						color:@hover-color;
+					}
+				}
+			}
+		}
+	}
 	//管理员-项目管理
 	#AdminTest{
 
@@ -406,143 +462,6 @@ body{
 					}
 				}
 			}
-		}
-	}
-	#TeaTestdis{
-		.admin_infor{
-			margin-left:150px;
-		}
-	}
-	#TestOrder{
-		.admin_infor{
-			margin-left:50px;
-		}
-	}
-	//管理员项目批次管理-教师项目-学生已预约项目
-	#AdminTestdis,#TeacherTest,#OrderTestok,#TeaTestdis,#TestOrder{
-
-		h4{
-			margin-top:10px;
-			text-align:left;
-			padding-left:40px;
-			color:#666;
-			font-weight:normal;
-
-			.stu_add{
-				color:#888;
-				cursor:pointer;
-				margin-left:20px;
-
-				&:hover{
-					color:@hover-color;
-				}
-			}
-		}
-		.admin_infor{
-			margin-top:10px;
-
-			li{
-				.line-h(25px);
-				float:left;
-				margin-left:20px;
-
-				span{
-					.line-h(25px);
-					display:block;
-					float:left;
-					background-color:white;
-					width:100px;
-				}
-				.stu_delete,.stu_revise,.stu_stu,.getgrade,.checkstu{
-					width:80px;
-					color:#888;
-					cursor:pointer;
-
-					&:hover{
-						color:@hover-color;
-					}
-				}
-				.stu_s,.stu_stu,.getgrade,.checkstu{
-					width:100px;
-				}
-				.stu_del,.stu_re{
-					width:80px;
-				}
-				.item_name,.it_name,.stu_item{
-					width:200px;
-				}
-			}
-		}
-		.teacher_infor{
-			.admin_infor;
-			margin-left:50px;
-		}
-		.student_infor{
-			.admin_infor;
-			margin-left:80px;
-		}
-	}
-	#OrderTest{
-
-		h4{
-			margin-top:10px;
-			text-align:left;
-			padding-left:40px;
-			color:#666;
-			font-weight:normal;
-
-			.stu_add{
-				color:#888;
-				cursor:pointer;
-				margin-left:20px;
-
-				&:hover{
-					color:@hover-color;
-				}
-			}
-		}
-		.admin_infor{
-			margin-top:10px;
-
-			li{
-				.line-h(25px);
-				float:left;
-				margin-left:100px;
-
-				span{
-					.line-h(25px);
-					display:block;
-					float:left;
-					background-color:white;
-					width:100px;
-				}
-				.stu_delete,.stu_revise,.stu_stu,.getgrade,.checkstu{
-					width:80px;
-					color:#888;
-					cursor:pointer;
-
-					&:hover{
-						color:@hover-color;
-					}
-				}
-				.stu_s,.stu_stu,.getgrade,.checkstu{
-					width:100px;
-				}
-				.stu_del,.stu_re{
-					width:80px;
-				}
-				.item_name,.it_name,.stu_item{
-					width:200px;
-				}
-			}
-		}
-		.teacher_infor{
-			.admin_infor;
-			margin-left:80px;
-		}
-		.student_infor{
-			.admin_infor;
-			margin-left:80px;
 		}
 	}
 	//管理员-公告管理
@@ -689,12 +608,86 @@ body{
 	height:220px;
 	overflow:hidden;
 }
+//图标
 #tu{
 	width:15px;
 	height:15px;
 	float:left;
-	margin-top: 5px;
+	margin-top:5px;
 	cursor:pointer;
 }
 
 
+//表格新样式
+
+//教师
+#info_teacher,#info_admin,#info_student{
+	select{
+		height:25px;
+		margin:5px;
+	}
+	table{
+		margin:auto auto;
+		
+		caption{
+			margin:5px;
+			font-weight:bold;
+		}
+		th,td{
+			width:105px;
+			max-width:105px;
+			height:50px;
+			border:@tableborder-style; 
+			font-weight:normal;
+			overflow:hidden;
+			white-space:nowrap;
+			text-overflow:ellipsis;
+			position:relative;
+
+			&:hover{
+				overflow:visible;
+			}
+
+			.addselect{
+				width:80px;
+				height:60px;
+				z-index:100;
+				background:white;
+				position:absolute;
+				.border;
+				left:20px;
+				top:10px;
+			}
+			select{
+				float:left;
+				margin:1px;
+				height:22px;
+			}
+			div{
+				float:right;
+				margin:1px;
+				.line-h(22px);
+				width:11px;
+				background:white;
+				font-size:10px;
+				color:red;
+			}
+		}
+	}
+	#paging{
+		display:flex;
+		width:500px;
+		margin:auto auto;
+		margin-top:30px;
+		color:#444;
+
+		li{
+			flex:1;
+			cursor:pointer;
+
+			&:hover{
+				color:red;
+			}
+		}
+	}
+}
