@@ -433,42 +433,47 @@ function okAdditemdis(e){
 	    var mydate=date.getDate()-1;//获取日
 
 	    //若没有教师的值，则使用当前个人信息中的id
-	 //   console.log(e.target.previousSibling.value!=null);
+	    console.log(e.target.previousSibling.value=="");
 	    var teaid=e.target.previousSibling.value;
 
-	    if(teaid==typeof("string") && e.target.previousSibling.value!=null)
+	    if(typeof(teaid)==typeof("string") && e.target.previousSibling.value!=null && e.target.previousSibling.value!="")
 	    	teaid=username;
-
-		var testdis={
-			itemid:e.target.parentNode.firstChild.value,
-	 		teaid,
-	 		laboratory:$("#selectPlace option:selected").val(),
-	 		date:myyear+"-"+mymonth+"-"+mydate,
-	 		segmentation:e.target.parentNode.getAttribute("data-lab"),
-			};
+	    if($("#selectPlace option:selected").val()=="全部")
+	    {
+	    	alert("您没有选择地点");
+	    }
+	    else{
+			var testdis={
+				itemid:e.target.parentNode.firstChild.value,
+		 		teaid,
+		 		laboratory:$("#selectPlace option:selected").val(),
+		 		date:myyear+"-"+mymonth+"-"+mydate,
+		 		segmentation:e.target.parentNode.getAttribute("data-lab"),
+				};
 
 	//	console.log(JSON.stringify(testdis));
-		if(confirm("确认添加吗？"))
-		{
-	 		$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/batch",
-		 		type:"POST",	
-		 		dataType:"json", 
-		 		"contentType":"application/json",  
-		 		data:JSON.stringify(testdis),
-		 		success:function(data){
-		 			if(data.code=="200")
-		 			{
-		 				alert("成功添加,信息已保存")
-		 			}
-		 			else{
-		 				alert("保存失败");
-		 			}
-		 		},
-		 		error:function(){
-		 			alert("出错了");
-		 		}
-	 		});
+			if(confirm("确认添加吗？"))
+			{
+		 		$.ajax({	
+			 		url:"http://yiranblade.cn/lbms/batch",
+			 		type:"POST",	
+			 		dataType:"json", 
+			 		"contentType":"application/json",  
+			 		data:JSON.stringify(testdis),
+			 		success:function(data){
+			 			if(data.code=="200")
+			 			{
+			 				alert("成功添加,信息已保存")
+			 			}
+			 			else{
+			 				alert("保存失败");
+			 			}
+			 		},
+			 		error:function(){
+			 			alert("出错了");
+			 		}
+		 		});
+			}
 		}
 }
  //学生管理模块
@@ -1254,7 +1259,7 @@ $(".stuent_order").click(function(){
 	 		success:function(data){
 	 			if(data.code=="200")
 	 			{
-	 				alert("新增管理员用户名为 "+$(".write_username").val()+"\n默认密码为11111111"+"\n信息已成功保存");
+	 				alert("新增教师用户名为 "+$(".write_username").val()+"\n默认密码为11111111"+"\n信息已成功保存");
 	 			}
 	 			else{
 	 				alert("保存失败");
