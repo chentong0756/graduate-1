@@ -8,7 +8,7 @@ $("body").on("click","#login",function(){
 		}
 		username=$(".username").val();
 		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/login",
+	 		url:"http://yiranblade.cn/lbms/login",
 	 		type:"POST",	
 	 		dataType:"json",  
 	 		data:login,
@@ -17,7 +17,7 @@ $("body").on("click","#login",function(){
 					{
 						//console.log($(".identity input:checked").val());
 						$.ajax({	
-					 		url:"http://192.168.1.112:8080/lbms/login/"+username,
+					 		url:"http://yiranblade.cn/lbms/login/"+username,
 					 		type:"GET",	
 					 		dataType:"json",
 					 		success:function(data){
@@ -74,7 +74,7 @@ $("body").on("click","#login",function(){
 function ajaxgetitemname(itemid){
 	var itemname;
 	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/item/"+itemid,
+	 		url:"http://yiranblade.cn/lbms/item/"+itemid,
 	 		type:"GET",	
 	 		async:false,
 	 		dataType:"json",
@@ -97,7 +97,7 @@ function ajaxgetteaname(teaid){
 	if(teaid==null)
 		return false;
 	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher/"+teaid,
+	 		url:"http://yiranblade.cn/lbms/teacher/"+teaid,
 	 		type:"GET",	
 	 		async:false,
 	 		dataType:"json",
@@ -202,7 +202,7 @@ function filldata(result,text,disclick){
 	if($("#selectPlace option:selected").val()!="全部" && disclick!=3 && $("#selectPlace option:selected").val()!=undefined)
 	{
 		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/classroom/"+$("#selectPlace option:selected").val(),
+	 		url:"http://yiranblade.cn/lbms/batch/classroom/"+$("#selectPlace option:selected").val(),
 	 		type:"GET",	
 	 		async:false,
 	 		dataType:"json",
@@ -314,7 +314,7 @@ function addteaitem(e){
 		e.target.appendChild(divok);
 		//添加实验名称
 		 $.ajax({	
- 		url:"http://192.168.1.112:8080/lbms/item/page/1",
+ 		url:"http://yiranblade.cn/lbms/item/page/1",
  		type:"GET",	
  		dataType:"json",
  		success:function(data){
@@ -337,7 +337,7 @@ function addteaitem(e){
 	});	
 	//添加教师名称
 	$.ajax({	
- 		url:"http://192.168.1.112:8080/lbms/teacher/page/1",
+ 		url:"http://yiranblade.cn/lbms/teacher/page/1",
  		type:"GET",	
  		dataType:"json",
  		success:function(data){
@@ -396,7 +396,7 @@ function additemplace(e){
 		e.target.appendChild(divok);
 		//添加实验名称
 		 $.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/item/page/1",
+	 		url:"http://yiranblade.cn/lbms/item/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -451,7 +451,7 @@ function okAdditemdis(e){
 		if(confirm("确认添加吗？"))
 		{
 	 		$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/batch",
+		 		url:"http://yiranblade.cn/lbms/batch",
 		 		type:"POST",	
 		 		dataType:"json", 
 		 		"contentType":"application/json",  
@@ -532,7 +532,7 @@ function okAdditemdis(e){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://192.168.1.112:8080/lbms/cipher/student",
+			url:"http://yiranblade.cn/lbms/cipher/student",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -635,7 +635,7 @@ function okAdditemdis(e){
   		//console.log(batid);
   		//点击获取成绩
   		 $.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/test/"+batid+"&"+username,
+	 		url:"http://yiranblade.cn/lbms/test/"+batid+"&"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -709,7 +709,7 @@ function okAdditemdis(e){
  		//console.log(JSON.stringify(test));
  		//获取到该学生已经登记的实验id
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/student/"+username,
+	 		url:"http://yiranblade.cn/lbms/batch/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -726,7 +726,7 @@ function okAdditemdis(e){
 	 				{
 	 					//不存在则发送请求，登记成功
 		 				$.ajax({	
-					 		url:"http://192.168.1.112:8080/lbms/batch/student/"+batid+"&"+username,
+					 		url:"http://yiranblade.cn/lbms/batch/student/"+batid+"&"+username,
 					 		type:"PUT",	
 					 		dataType:"json", 
 					 		"contentType":"application/json",  
@@ -791,7 +791,7 @@ function okAdditemdis(e){
 
 $(".stuent_infor").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student/"+username,
+	 		url:"http://yiranblade.cn/lbms/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -808,7 +808,7 @@ $(".stuent_infor").click(function(){
 
 $(".stuent_public").click(function(){
 	 $.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/notice/page/1",
+	 		url:"http://yiranblade.cn/lbms/notice/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -824,7 +824,7 @@ $(".stuent_public").click(function(){
 })
 $(".stuent_test").click(function(){
 	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/student/"+username,
+	 		url:"http://yiranblade.cn/lbms/batch/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -843,7 +843,7 @@ $(".stuent_score").click(function(){
 })
 $(".stuent_order").click(function(){
 	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/teacherorder",
+	 		url:"http://yiranblade.cn/lbms/batch/teacherorder",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -882,7 +882,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/student/"+numid,
+		 		url:"http://yiranblade.cn/lbms/student/"+numid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -911,7 +911,7 @@ $(".stuent_order").click(function(){
 		{
 			var special=$(".admin_search input").val();
 			$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student/page/special/"+special+"&1",
+	 		url:"http://yiranblade.cn/lbms/student/page/special/"+special+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -930,7 +930,7 @@ $(".stuent_order").click(function(){
 		var formData = new FormData($("#uploadForm")[0]);
 		console.log(formData);
 		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student/multitude",
+	 		url:"http://yiranblade.cn/lbms/student/multitude",
 	 		type:"POST",	
 	 		dataType:"json",  
           	processData: false,  
@@ -1059,7 +1059,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student",
+	 		url:"http://yiranblade.cn/lbms/student",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1114,7 +1114,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student",
+	 		url:"http://yiranblade.cn/lbms/student",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1172,7 +1172,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/teacher/"+teaid,
+		 		url:"http://yiranblade.cn/lbms/teacher/"+teaid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1246,7 +1246,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(teacher));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher",
+	 		url:"http://yiranblade.cn/lbms/teacher",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 	 	"contentType":"application/json",  
@@ -1300,7 +1300,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(teacher));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher",
+	 		url:"http://yiranblade.cn/lbms/teacher",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1358,7 +1358,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/administrator/"+admid,
+		 		url:"http://yiranblade.cn/lbms/administrator/"+admid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1427,7 +1427,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/administrator",
+	 		url:"http://yiranblade.cn/lbms/administrator",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1476,7 +1476,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/administrator",
+	 		url:"http://yiranblade.cn/lbms/administrator",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1531,7 +1531,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/item/"+itemid,
+		 		url:"http://yiranblade.cn/lbms/item/"+itemid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1602,7 +1602,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/item",
+	 		url:"http://yiranblade.cn/lbms/item",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1646,7 +1646,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/item",
+	 		url:"http://yiranblade.cn/lbms/item",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1700,7 +1700,7 @@ $(".stuent_order").click(function(){
 	  		if(confirm("确认删除吗？"))
 	  		{
 	  			$.ajax({	
-			 		url:"http://192.168.1.112:8080/lbms/batch/"+batid,
+			 		url:"http://yiranblade.cn/lbms/batch/"+batid,
 			 		type:"DELETE",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -1730,7 +1730,7 @@ $(".stuent_order").click(function(){
   		if(batid!=null&&$("#selectState option:selected").val()=="sel_checkstu")
   		{
 	  		$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/student/"+batid+"/1",
+		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -1755,7 +1755,7 @@ $(".stuent_order").click(function(){
   		filldata(result,text);
   		//添加待通过确认的项目
   		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/needapprove",
+	 		url:"http://yiranblade.cn/lbms/batch/needapprove",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -1844,7 +1844,7 @@ $(".stuent_order").click(function(){
   			if(confirm("确认同意吗？"))
   			{
 	  			$.ajax({	
-			 		url:"http://192.168.1.112:8080/lbms/batch/approve/"+batid,
+			 		url:"http://yiranblade.cn/lbms/batch/approve/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -1865,7 +1865,7 @@ $(".stuent_order").click(function(){
   			if(confirm("确认拒绝吗？"))
 	  		{
 		  		$.ajax({	
-			 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
+			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",
 			 		success:function(data){
@@ -1938,7 +1938,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认同意吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/batch/approve/"+batid,
+		 		url:"http://yiranblade.cn/lbms/batch/approve/"+batid,
 		 		type:"GET",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1958,7 +1958,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认拒绝吗？"))
   		{
 	  		$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
+		 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -2071,7 +2071,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(testdis));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch",
+	 		url:"http://yiranblade.cn/lbms/batch",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2121,7 +2121,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(batch));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch",
+	 		url:"http://yiranblade.cn/lbms/batch",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2179,7 +2179,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/notice/"+noticeid,
+		 		url:"http://yiranblade.cn/lbms/notice/"+noticeid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -2239,7 +2239,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(notice));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/notice",
+	 		url:"http://yiranblade.cn/lbms/notice",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2280,7 +2280,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(notice));
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/notice",
+	 		url:"http://yiranblade.cn/lbms/notice",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2368,7 +2368,7 @@ $(".stuent_order").click(function(){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://192.168.1.112:8080/lbms/cipher/administrator",
+			url:"http://yiranblade.cn/lbms/cipher/administrator",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -2407,7 +2407,7 @@ $(".stuent_order").click(function(){
 //点击目录获取相应的界面
  $(".admin_stu").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/student/page/1",
+	 		url:"http://yiranblade.cn/lbms/student/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2423,7 +2423,7 @@ $(".stuent_order").click(function(){
 })
 $(".admin_tea").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher/page/1",
+	 		url:"http://yiranblade.cn/lbms/teacher/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2439,7 +2439,7 @@ $(".admin_tea").click(function(){
 })
 $(".admin_admin").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/administrator/page/1",
+	 		url:"http://yiranblade.cn/lbms/administrator/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2455,7 +2455,7 @@ $(".admin_admin").click(function(){
 })
 $(".admin_test").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/item/page/1",
+	 		url:"http://yiranblade.cn/lbms/item/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2471,7 +2471,7 @@ $(".admin_test").click(function(){
 })
 $(".admin_public").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/notice/page/1",
+	 		url:"http://yiranblade.cn/lbms/notice/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2487,7 +2487,7 @@ $(".admin_public").click(function(){
 })
 $(".admin_testdis").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/page/1",
+	 		url:"http://yiranblade.cn/lbms/batch/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2503,7 +2503,7 @@ $(".admin_testdis").click(function(){
 })
 $(".admin_person").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/administrator/"+username,
+	 		url:"http://yiranblade.cn/lbms/administrator/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2519,7 +2519,7 @@ $(".admin_person").click(function(){
 })
 $(".admin_testorder").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/needapprove",
+	 		url:"http://yiranblade.cn/lbms/batch/needapprove",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2552,7 +2552,7 @@ $(".admin_testorder").click(function(){
   		if($("#selectState option:selected").val()=="sel_checkstu"&&batid!=null)
   		{
 	  		$.ajax({	
-		 		url:"http://192.168.1.112:8080/lbms/student/"+batid+"/1",
+		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -2574,7 +2574,7 @@ $(".admin_testorder").click(function(){
 			if(confirm("确认取消登记吗？"))
 	  		{
 		  		$.ajax({	
-			 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
+			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",
 			 		success:function(data){
@@ -2683,7 +2683,7 @@ $(".admin_testorder").click(function(){
  	addclick:function(){
  		//发送获取成绩请求获取成绩id
  		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/test/"+$(".write_batid").val()+"&"+$(".write_numid").val(),
+	 		url:"http://yiranblade.cn/lbms/test/"+$(".write_batid").val()+"&"+$(".write_numid").val(),
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2700,7 +2700,7 @@ $(".admin_testorder").click(function(){
 			 		};
 			 		//console.log(JSON.stringify(Stuinfo));
 	 				$.ajax({	
-				 		url:"http://192.168.1.112:8080/lbms/test",
+				 		url:"http://yiranblade.cn/lbms/test",
 				 		type:"PUT",	
 				 		dataType:"json", 
 				 		"contentType":"application/json",  
@@ -2761,7 +2761,7 @@ $(".admin_testorder").click(function(){
   		let li=e.target.parentNode.firstChild.value;//获取父元素的第一个子元素的input值;
   		console.log(li);
   		$.ajax({
-		 		url:"http://192.168.1.112:8080/lbms/test/suminformation/"+li+"/"+batid,
+		 		url:"http://yiranblade.cn/lbms/test/suminformation/"+li+"/"+batid,
 		 		type:"GET",	
 		 		dataType:"json", 
 		 		async:false,
@@ -2869,7 +2869,7 @@ $(".admin_testorder").click(function(){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://192.168.1.112:8080/lbms/cipher/teacher",
+			url:"http://yiranblade.cn/lbms/cipher/teacher",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -2925,7 +2925,7 @@ $(".admin_testorder").click(function(){
 	  		if(confirm("确认登记吗？"))
 	  		{
 	  			$.ajax({	
-			 		url:"http://192.168.1.112:8080/lbms/teacher/make/"+username+"/"+batid,
+			 		url:"http://yiranblade.cn/lbms/teacher/make/"+username+"/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -3023,7 +3023,7 @@ $(".admin_testorder").click(function(){
   		var text=e.target.textContent;
   		filldata(result,text);
   		$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -3061,7 +3061,7 @@ $(".admin_testorder").click(function(){
  });
 $(".teacher_tea").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher/"+username,
+	 		url:"http://yiranblade.cn/lbms/teacher/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -3077,7 +3077,7 @@ $(".teacher_tea").click(function(){
 })
 $(".teacher_grade").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -3097,7 +3097,7 @@ $(".teacher_grade").click(function(){
 })
 $(".teacher_test").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -3114,7 +3114,7 @@ $(".teacher_test").click(function(){
 })
 $(".teacher_testall").click(function(){
  	$.ajax({	
-	 		url:"http://192.168.1.112:8080/lbms/teacher/ordered",
+	 		url:"http://yiranblade.cn/lbms/teacher/ordered",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
