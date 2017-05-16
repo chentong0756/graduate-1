@@ -8,7 +8,7 @@ $("body").on("click","#login",function(){
 		}
 		username=$(".username").val();
 		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/login",
+	 		url:"http://192.168.1.112:8080/lbms/login",
 	 		type:"POST",	
 	 		dataType:"json",  
 	 		data:login,
@@ -17,7 +17,7 @@ $("body").on("click","#login",function(){
 					{
 						//console.log($(".identity input:checked").val());
 						$.ajax({	
-					 		url:"http://yiranblade.cn/lbms/login/"+username,
+					 		url:"http://192.168.1.112:8080/lbms/login/"+username,
 					 		type:"GET",	
 					 		dataType:"json",
 					 		success:function(data){
@@ -74,7 +74,7 @@ $("body").on("click","#login",function(){
 function ajaxgetitemname(itemid){
 	var itemname;
 	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/item/"+itemid,
+	 		url:"http://192.168.1.112:8080/lbms/item/"+itemid,
 	 		type:"GET",	
 	 		async:false,
 	 		dataType:"json",
@@ -97,7 +97,7 @@ function ajaxgetteaname(teaid){
 	if(teaid==null)
 		return false;
 	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher/"+teaid,
+	 		url:"http://192.168.1.112:8080/lbms/teacher/"+teaid,
 	 		type:"GET",	
 	 		async:false,
 	 		dataType:"json",
@@ -198,6 +198,27 @@ var TableRender=React.createClass({
 });
 //填充数据
 function filldata(result,text,disclick){
+//	console.log($("#selectPlace option:selected").val());
+	if($("#selectPlace option:selected").val()!="全部" && disclick!=3 && $("#selectPlace option:selected").val()!=undefined)
+	{
+		$.ajax({	
+	 		url:"http://192.168.1.112:8080/lbms/batch/classroom/"+$("#selectPlace option:selected").val(),
+	 		type:"GET",	
+	 		async:false,
+	 		dataType:"json",
+	 		success:function(data){
+	 			if(data.code=="200")
+	 			{ 	
+	 			//	console.log(data);
+	 				result=data.data;
+	 			}
+	 			else{
+	 				alert("错误发生了");
+	 			}
+	 		}
+ 		});	
+	}
+
 	var termdate=new Date(2017,2-1,27); //开学的时间
 	termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
 //	console.log(result);
@@ -221,7 +242,11 @@ function filldata(result,text,disclick){
 		}
 	}
  	for(let list of result)
-	{					
+	{	
+		//若数据的地点和选择的地点相等 或者 地点为全部 才继续下去
+//		console.log(list.laboratory);
+		if(list.laboratory==$("#selectPlace option:selected").val()||$("#selectPlace option:selected").val()=="全部" || $("#selectPlace option:selected").val()==undefined)
+		{			
 		var listdate=list.date.split("-");
 		var date=new Date(listdate[0],listdate[1]-1,listdate[2]); //该课程的时间
 		var datemsec=date.getTime(); //课程时间距 1970-01-01 
@@ -267,7 +292,184 @@ function filldata(result,text,disclick){
 			}
 		//	console.log(tds[seg*8+week].getAttribute("batid"));
 		}
+		}
 	}
+}
+//添加教师和项目
+function addteaitem(e){
+
+	var itemselect=document.createElement("select");
+	var teaselect=document.createElement("select");
+	//添加第一个教师值为""
+	var option=document.createElement("option");
+	option.innerHTML="";
+	option.value="";
+	teaselect.appendChild(option);
+
+		var divok=document.createElement("div");
+		divok.innerHTML="ok";
+
+		e.target.appendChild(itemselect);
+		e.target.appendChild(teaselect);
+		e.target.appendChild(divok);
+		//添加实验名称
+		 $.ajax({	
+ 		url:"http://192.168.1.112:8080/lbms/item/page/1",
+ 		type:"GET",	
+ 		dataType:"json",
+ 		success:function(data){
+ 			if(data.code=="200")
+ 			{ 	
+ 			//	console.log(data);
+ 				for(var place of data.data.recordList)
+ 				{
+ 					var option=document.createElement("option");
+ 					var itemname=ajaxgetitemname(place.itemid);
+ 					option.innerHTML=itemname;
+ 					option.value=place.itemid;
+ 					itemselect.appendChild(option);
+ 				}
+ 			}
+ 			else{
+ 				alert("no");
+ 			}
+ 		}
+	});	
+	//添加教师名称
+	$.ajax({	
+ 		url:"http://192.168.1.112:8080/lbms/teacher/page/1",
+ 		type:"GET",	
+ 		dataType:"json",
+ 		success:function(data){
+ 			if(data.code=="200")
+ 			{ 	
+ 			//	console.log(data);
+ 				for(var place of data.data.recordList)
+ 				{
+ 					var option=document.createElement("option");
+ 					option.innerHTML=place.name;
+ 					option.value=place.teaid;
+ 					teaselect.appendChild(option);
+ 				}
+ 			}
+ 			else{
+ 				alert("no");
+ 			}
+ 		}
+	});		
+}
+//教师-添加项目地点名称
+function additemplace(e){
+		var itemselect=document.createElement("select");
+		var selectPlace=document.createElement("select");
+		selectPlace.id="selectPlace";
+
+		var option=document.createElement("option");
+	 	option.innerHTML="fz123";
+	 	option.style.value="fz123";
+	 	selectPlace.appendChild(option);
+	 	var option=document.createElement("option");
+	 	option.innerHTML="fz134";
+	 	option.style.value="fz134";
+	 	selectPlace.appendChild(option);
+	 	var option=document.createElement("option");
+	 	option.innerHTML="a222";
+	 	option.style.value="a222";
+	 	selectPlace.appendChild(option);
+	 	var option=document.createElement("option");
+	 	option.innerHTML="b345";
+	 	option.style.value="b345";
+	 	selectPlace.appendChild(option);
+	 	var option=document.createElement("option");
+	 	option.innerHTML="ff106";
+	 	option.style.value="ff106";
+	 	selectPlace.appendChild(option);
+	 	var option=document.createElement("option");
+	 	option.innerHTML="ff207";
+	 	option.style.value="ff207";
+		selectPlace.appendChild(option);
+
+		var divok=document.createElement("div");
+		divok.innerHTML="ok";
+		e.target.appendChild(itemselect);
+		e.target.appendChild(selectPlace);
+		e.target.appendChild(divok);
+		//添加实验名称
+		 $.ajax({	
+	 		url:"http://192.168.1.112:8080/lbms/item/page/1",
+	 		type:"GET",	
+	 		dataType:"json",
+	 		success:function(data){
+	 			if(data.code=="200")
+	 			{ 	
+	 			//	console.log(data);
+	 				for(var place of data.data.recordList)
+	 				{
+	 					var option=document.createElement("option");
+	 					var itemname=ajaxgetitemname(place.itemid);
+	 					option.innerHTML=itemname;
+	 					option.value=place.itemid;
+	 					itemselect.appendChild(option);
+	 				}
+	 			}
+	 			else{
+	 				alert("no");
+	 			}
+	 		}
+		});	
+}
+//点击ok添加批次
+function okAdditemdis(e){
+	var day=e.target.parentNode.getAttribute("data-week");
+		day=parseInt(day);
+		var week=$("#weeknum").html();
+		var date=(week-1)*7+day;
+		date=date*24*60*60*1000;
+		var termdate=new Date(2017,2-1,27); //开学的时间
+		termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
+		date=new Date(termmsec+date);
+		var myyear=date.getFullYear();//获取年
+	    var mymonth=date.getMonth()+1;//获取月
+	    var mydate=date.getDate()-1;//获取日
+
+	    //若没有教师的值，则使用当前个人信息中的id
+	 //   console.log(e.target.previousSibling.value!=null);
+	    var teaid=e.target.previousSibling.value;
+
+	    if(teaid==typeof("string") && e.target.previousSibling.value!=null)
+	    	teaid=username;
+
+		var testdis={
+			itemid:e.target.parentNode.firstChild.value,
+	 		teaid,
+	 		laboratory:$("#selectPlace option:selected").val(),
+	 		date:myyear+"-"+mymonth+"-"+mydate,
+	 		segmentation:e.target.parentNode.getAttribute("data-lab"),
+			};
+
+	//	console.log(JSON.stringify(testdis));
+		if(confirm("确认添加吗？"))
+		{
+	 		$.ajax({	
+		 		url:"http://192.168.1.112:8080/lbms/batch",
+		 		type:"POST",	
+		 		dataType:"json", 
+		 		"contentType":"application/json",  
+		 		data:JSON.stringify(testdis),
+		 		success:function(data){
+		 			if(data.code=="200")
+		 			{
+		 				alert("成功添加,信息已保存")
+		 			}
+		 			else{
+		 				alert("保存失败");
+		 			}
+		 		},
+		 		error:function(){
+		 			alert("出错了");
+		 		}
+	 		});
+		}
 }
  //学生管理模块
  //学生管理-个人信息组件
@@ -330,7 +532,7 @@ function filldata(result,text,disclick){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://yiranblade.cn/lbms/cipher/student",
+			url:"http://192.168.1.112:8080/lbms/cipher/student",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -433,7 +635,7 @@ function filldata(result,text,disclick){
   		//console.log(batid);
   		//点击获取成绩
   		 $.ajax({	
-	 		url:"http://yiranblade.cn/lbms/test/"+batid+"&"+username,
+	 		url:"http://192.168.1.112:8080/lbms/test/"+batid+"&"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -507,7 +709,7 @@ function filldata(result,text,disclick){
  		//console.log(JSON.stringify(test));
  		//获取到该学生已经登记的实验id
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/student/"+username,
+	 		url:"http://192.168.1.112:8080/lbms/batch/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -524,7 +726,7 @@ function filldata(result,text,disclick){
 	 				{
 	 					//不存在则发送请求，登记成功
 		 				$.ajax({	
-					 		url:"http://yiranblade.cn/lbms/batch/student/"+batid+"&"+username,
+					 		url:"http://192.168.1.112:8080/lbms/batch/student/"+batid+"&"+username,
 					 		type:"PUT",	
 					 		dataType:"json", 
 					 		"contentType":"application/json",  
@@ -589,7 +791,7 @@ function filldata(result,text,disclick){
 
 $(".stuent_infor").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/"+username,
+	 		url:"http://192.168.1.112:8080/lbms/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -606,7 +808,7 @@ $(".stuent_infor").click(function(){
 
 $(".stuent_public").click(function(){
 	 $.ajax({	
-	 		url:"http://yiranblade.cn/lbms/notice/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/notice/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -622,7 +824,7 @@ $(".stuent_public").click(function(){
 })
 $(".stuent_test").click(function(){
 	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/student/"+username,
+	 		url:"http://192.168.1.112:8080/lbms/batch/student/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -641,7 +843,7 @@ $(".stuent_score").click(function(){
 })
 $(".stuent_order").click(function(){
 	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/teacherorder",
+	 		url:"http://192.168.1.112:8080/lbms/batch/teacherorder",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -680,7 +882,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/student/"+numid,
+		 		url:"http://192.168.1.112:8080/lbms/student/"+numid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -709,7 +911,7 @@ $(".stuent_order").click(function(){
 		{
 			var special=$(".admin_search input").val();
 			$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/page/special/"+special+"&1",
+	 		url:"http://192.168.1.112:8080/lbms/student/page/special/"+special+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -728,7 +930,7 @@ $(".stuent_order").click(function(){
 		var formData = new FormData($("#uploadForm")[0]);
 		console.log(formData);
 		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/multitude",
+	 		url:"http://192.168.1.112:8080/lbms/student/multitude",
 	 		type:"POST",	
 	 		dataType:"json",  
           	processData: false,  
@@ -857,7 +1059,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student",
+	 		url:"http://192.168.1.112:8080/lbms/student",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -912,7 +1114,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student",
+	 		url:"http://192.168.1.112:8080/lbms/student",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -970,7 +1172,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/teacher/"+teaid,
+		 		url:"http://192.168.1.112:8080/lbms/teacher/"+teaid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1044,7 +1246,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(teacher));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher",
+	 		url:"http://192.168.1.112:8080/lbms/teacher",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 	 	"contentType":"application/json",  
@@ -1098,7 +1300,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(teacher));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher",
+	 		url:"http://192.168.1.112:8080/lbms/teacher",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1156,7 +1358,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/administrator/"+admid,
+		 		url:"http://192.168.1.112:8080/lbms/administrator/"+admid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1225,7 +1427,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/administrator",
+	 		url:"http://192.168.1.112:8080/lbms/administrator",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1274,7 +1476,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/administrator",
+	 		url:"http://192.168.1.112:8080/lbms/administrator",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1329,7 +1531,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/item/"+itemid,
+		 		url:"http://192.168.1.112:8080/lbms/item/"+itemid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1400,7 +1602,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/item",
+	 		url:"http://192.168.1.112:8080/lbms/item",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1444,7 +1646,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(student));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/item",
+	 		url:"http://192.168.1.112:8080/lbms/item",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -1498,7 +1700,7 @@ $(".stuent_order").click(function(){
 	  		if(confirm("确认删除吗？"))
 	  		{
 	  			$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/batch/"+batid,
+			 		url:"http://192.168.1.112:8080/lbms/batch/"+batid,
 			 		type:"DELETE",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -1528,7 +1730,7 @@ $(".stuent_order").click(function(){
   		if(batid!=null&&$("#selectState option:selected").val()=="sel_checkstu")
   		{
 	  		$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
+		 		url:"http://192.168.1.112:8080/lbms/student/"+batid+"/1",
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -1553,7 +1755,7 @@ $(".stuent_order").click(function(){
   		filldata(result,text);
   		//添加待通过确认的项目
   		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/needapprove",
+	 		url:"http://192.168.1.112:8080/lbms/batch/needapprove",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -1587,78 +1789,36 @@ $(".stuent_order").click(function(){
   			//若点击"ok"则设置批次
   			if(e.target.textContent=="ok")
   			{
-  				var day=e.target.parentNode.getAttribute("data-week");
-  				day=parseInt(day);
-  				var week=$("#weeknum").html();
-  				var date=(week-1)*7+day;
-  				date=date*24*60*60*1000;
-  				var termdate=new Date(2017,2-1,27); //开学的时间
-				termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
-				date=new Date(termmsec+date);
-				var myyear=date.getFullYear();//获取年
-			    var mymonth=date.getMonth()+1;//获取月
-			    var mydate=date.getDate()-1;//获取日
-
-  				var testdis={
-		 			itemid:e.target.parentNode.firstChild.value,
-			 		teaid:e.target.previousSibling.value,
-			 		laboratory:$("#selectPlace option:selected").val(),
-			 		date:myyear+"-"+mymonth+"-"+mydate,
-			 		segmentation:e.target.parentNode.getAttribute("data-lab"),
-		 		};
-	 			console.log(JSON.stringify(testdis));
-	 			if(confirm("确认添加吗？"))
-	 			{
-			 		$.ajax({	
-				 		url:"http://yiranblade.cn/lbms/batch",
-				 		type:"POST",	
-				 		dataType:"json", 
-				 		"contentType":"application/json",  
-				 		data:JSON.stringify(testdis),
-				 		success:function(data){
-				 			if(data.code=="200")
-				 			{
-				 				alert("成功添加,信息已保存")
-				 			}
-				 			else{
-				 				alert("保存失败");
-				 			}
-				 		},
-				 		error:function(){
-				 			alert("出错了");
-				 		}
-			 		});
-		 		}
+  				okAdditemdis(e);
   			}
   			//添加地点
   			if($("#selectPlace option:selected").val()==undefined)
   			{
-  				var selectPlace=document.getElementById("selectPlace");
-			 	var option=document.createElement("option");
-			 	option.innerHTML="fz123";
-			 	option.style.value="fz123";
-			 	selectPlace.appendChild(option);
-			 	var option=document.createElement("option");
-			 	option.innerHTML="fz134";
-			 	option.style.value="fz134";
-			 	selectPlace.appendChild(option);
-			 	var option=document.createElement("option");
-			 	option.innerHTML="a222";
-			 	option.style.value="a222";
-			 	selectPlace.appendChild(option);
-			 	var option=document.createElement("option");
-			 	option.innerHTML="b345";
-			 	option.style.value="b345";
-			 	selectPlace.appendChild(option);
-			 	var option=document.createElement("option");
-			 	option.innerHTML="ff106";
-			 	option.style.value="ff106";
-			 	selectPlace.appendChild(option);
-			 	var option=document.createElement("option");
-			 	option.innerHTML="ff207";
-			 	option.style.value="ff207";
-			 	selectPlace.appendChild(option);
-
+  			// 	var selectPlace=document.getElementById("selectPlace");
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="fz123";
+			 	// option.style.value="fz123";
+			 	// selectPlace.appendChild(option);
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="fz134";
+			 	// option.style.value="fz134";
+			 	// selectPlace.appendChild(option);
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="a222";
+			 	// option.style.value="a222";
+			 	// selectPlace.appendChild(option);
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="b345";
+			 	// option.style.value="b345";
+			 	// selectPlace.appendChild(option);
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="ff106";
+			 	// option.style.value="ff106";
+			 	// selectPlace.appendChild(option);
+			 	// var option=document.createElement("option");
+			 	// option.innerHTML="ff207";
+			 	// option.style.value="ff207";
+			 	// selectPlace.appendChild(option);
 			}
 		//	console.log($("#weeknum").html());
   			if($("#weeknum").html()=="" && $("#selectPlace option:selected").val()!=undefined)
@@ -1667,68 +1827,13 @@ $(".stuent_order").click(function(){
   			}
   		//	console.log(e.target.textContent);
   			//添加实验名称和教师名称
-  			if($("#selectPlace option:selected").val()!=undefined && $("#weeknum").html()!="" && e.target.textContent=="")
+  			if(e.target.textContent=="")
   			{
-	  			var itemselect=document.createElement("select");
-	  			var teaselect=document.createElement("select");
-	  			//添加第一个教师值为""
-	  			var option=document.createElement("option");
-				option.innerHTML="";
-				option.value="";
-				teaselect.appendChild(option);
-
-	  			var divok=document.createElement("div");
-	  			divok.innerHTML="ok";
-
-	  			e.target.appendChild(itemselect);
-	  			e.target.appendChild(teaselect);
-	  			e.target.appendChild(divok);
-	  			//添加实验名称
-	  			 $.ajax({	
-			 		url:"http://yiranblade.cn/lbms/item/page/1",
-			 		type:"GET",	
-			 		dataType:"json",
-			 		success:function(data){
-			 			if(data.code=="200")
-			 			{ 	
-			 			//	console.log(data);
-			 				for(var place of data.data.recordList)
-			 				{
-			 					var option=document.createElement("option");
-			 					var itemname=ajaxgetitemname(place.itemid);
-			 					option.innerHTML=itemname;
-			 					option.value=place.itemid;
-			 					itemselect.appendChild(option);
-			 				}
-			 			}
-			 			else{
-			 				alert("no");
-			 			}
-			 		}
-				});	
-				//添加教师名称
-				$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/teacher/page/1",
-			 		type:"GET",	
-			 		dataType:"json",
-			 		success:function(data){
-			 			if(data.code=="200")
-			 			{ 	
-			 			//	console.log(data);
-			 				for(var place of data.data.recordList)
-			 				{
-			 					var option=document.createElement("option");
-			 					option.innerHTML=place.name;
-			 					option.value=place.teaid;
-			 					teaselect.appendChild(option);
-			 				}
-			 			}
-			 			else{
-			 				alert("no");
-			 			}
-			 		}
-				});	
-			}		
+  				if($("#selectPlace option:selected").val()!=undefined && $("#weeknum").html()!="")
+  				{
+  					addteaitem(e);
+  				}
+  			} 			
   		}
   	},
   	agree:function(batid){
@@ -1739,7 +1844,7 @@ $(".stuent_order").click(function(){
   			if(confirm("确认同意吗？"))
   			{
 	  			$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/batch/approve/"+batid,
+			 		url:"http://192.168.1.112:8080/lbms/batch/approve/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -1760,7 +1865,7 @@ $(".stuent_order").click(function(){
   			if(confirm("确认拒绝吗？"))
 	  		{
 		  		$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+			 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",
 			 		success:function(data){
@@ -1794,7 +1899,15 @@ $(".stuent_order").click(function(){
 	    			<option value="sel_checkstu">查看登记学生状态</option>
 	    			<option value="sel_additemdis">增加项目批次状态</option>
 	    		</select>
-	    		<select id="selectPlace"></select>	    				    			    		
+	    		<select id="selectPlace">
+	    			<option value="全部">全部</option>
+	    			<option value="fz123">fz123</option>
+	    			<option value="fz134">fz134</option>
+	    			<option value="a222">a222</option>
+	    			<option value="b345">b345</option>
+	    			<option value="ff106">ff106</option>
+	    			<option value="ff207">ff207</option>
+	    		</select>	    				    			    		
 	    		<div id="admin_infor" ref="admin_infor" onClick={(event)=>{if(event.target.parentNode.style.background=="rgb(221, 221, 221)")this.agree(event.target.getAttribute("batid"));else{this.getstuclick(event.target.getAttribute("batid")),this.reviseclick(event.target.getAttribute("batid"),event.target.getAttribute("itemid"),event.target.getAttribute("teaid"),event.target.getAttribute("laboratory"),event.target.getAttribute("date"),event.target.getAttribute("segmentation")),this.deleteclick(event.target.getAttribute("batid")),this.additemdis(event)}}}>
 
 	    		</div>
@@ -1825,7 +1938,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认同意吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/batch/approve/"+batid,
+		 		url:"http://192.168.1.112:8080/lbms/batch/approve/"+batid,
 		 		type:"GET",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -1845,7 +1958,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认拒绝吗？"))
   		{
 	  		$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+		 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -1958,7 +2071,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(testdis));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch",
+	 		url:"http://192.168.1.112:8080/lbms/batch",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2008,7 +2121,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(batch));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch",
+	 		url:"http://192.168.1.112:8080/lbms/batch",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2066,7 +2179,7 @@ $(".stuent_order").click(function(){
   		if(confirm("确认删除吗？"))
   		{
   			$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/notice/"+noticeid,
+		 		url:"http://192.168.1.112:8080/lbms/notice/"+noticeid,
 		 		type:"DELETE",	
 		 		dataType:"json",  
 		 		success:function(data){
@@ -2126,7 +2239,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(notice));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/notice",
+	 		url:"http://192.168.1.112:8080/lbms/notice",
 	 		type:"POST",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2167,7 +2280,7 @@ $(".stuent_order").click(function(){
  		};
  		//console.log(JSON.stringify(notice));
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/notice",
+	 		url:"http://192.168.1.112:8080/lbms/notice",
 	 		type:"PUT",	
 	 		dataType:"json", 
 	 		"contentType":"application/json",  
@@ -2255,7 +2368,7 @@ $(".stuent_order").click(function(){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://yiranblade.cn/lbms/cipher/administrator",
+			url:"http://192.168.1.112:8080/lbms/cipher/administrator",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -2294,7 +2407,7 @@ $(".stuent_order").click(function(){
 //点击目录获取相应的界面
  $(".admin_stu").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/student/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/student/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2310,7 +2423,7 @@ $(".stuent_order").click(function(){
 })
 $(".admin_tea").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/teacher/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2326,7 +2439,7 @@ $(".admin_tea").click(function(){
 })
 $(".admin_admin").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/administrator/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/administrator/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2342,7 +2455,7 @@ $(".admin_admin").click(function(){
 })
 $(".admin_test").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/item/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/item/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2358,7 +2471,7 @@ $(".admin_test").click(function(){
 })
 $(".admin_public").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/notice/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/notice/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2374,7 +2487,7 @@ $(".admin_public").click(function(){
 })
 $(".admin_testdis").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/page/1",
+	 		url:"http://192.168.1.112:8080/lbms/batch/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2390,7 +2503,7 @@ $(".admin_testdis").click(function(){
 })
 $(".admin_person").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/administrator/"+username,
+	 		url:"http://192.168.1.112:8080/lbms/administrator/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2406,7 +2519,7 @@ $(".admin_person").click(function(){
 })
 $(".admin_testorder").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/needapprove",
+	 		url:"http://192.168.1.112:8080/lbms/batch/needapprove",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2439,7 +2552,7 @@ $(".admin_testorder").click(function(){
   		if($("#selectState option:selected").val()=="sel_checkstu"&&batid!=null)
   		{
 	  		$.ajax({	
-		 		url:"http://yiranblade.cn/lbms/student/"+batid+"/1",
+		 		url:"http://192.168.1.112:8080/lbms/student/"+batid+"/1",
 		 		type:"GET",	
 		 		dataType:"json",
 		 		success:function(data){
@@ -2461,7 +2574,7 @@ $(".admin_testorder").click(function(){
 			if(confirm("确认取消登记吗？"))
 	  		{
 		  		$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/teacher/cancel/"+batid,
+			 		url:"http://192.168.1.112:8080/lbms/teacher/cancel/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",
 			 		success:function(data){
@@ -2570,7 +2683,7 @@ $(".admin_testorder").click(function(){
  	addclick:function(){
  		//发送获取成绩请求获取成绩id
  		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/test/"+$(".write_batid").val()+"&"+$(".write_numid").val(),
+	 		url:"http://192.168.1.112:8080/lbms/test/"+$(".write_batid").val()+"&"+$(".write_numid").val(),
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2587,7 +2700,7 @@ $(".admin_testorder").click(function(){
 			 		};
 			 		//console.log(JSON.stringify(Stuinfo));
 	 				$.ajax({	
-				 		url:"http://yiranblade.cn/lbms/test",
+				 		url:"http://192.168.1.112:8080/lbms/test",
 				 		type:"PUT",	
 				 		dataType:"json", 
 				 		"contentType":"application/json",  
@@ -2648,7 +2761,7 @@ $(".admin_testorder").click(function(){
   		let li=e.target.parentNode.firstChild.value;//获取父元素的第一个子元素的input值;
   		console.log(li);
   		$.ajax({
-		 		url:"http://yiranblade.cn/lbms/test/suminformation/"+li+"/"+batid,
+		 		url:"http://192.168.1.112:8080/lbms/test/suminformation/"+li+"/"+batid,
 		 		type:"GET",	
 		 		dataType:"json", 
 		 		async:false,
@@ -2756,7 +2869,7 @@ $(".admin_testorder").click(function(){
   		}
   		//console.log(admin);
   		$.ajax({	
-			url:"http://yiranblade.cn/lbms/cipher/teacher",
+			url:"http://192.168.1.112:8080/lbms/cipher/teacher",
 			type:"POST",	
 			dataType:"json", 
 			data:admin,
@@ -2804,15 +2917,15 @@ $(".admin_testorder").click(function(){
  		this.state.result=result;
  	//	console.log(result);
   	},
-  	checkclick:function(batid){
+  	checkclick:function(batid,e){
   		//点击登记跳出窗口询问是否登记
-  		//console.log(e.target.textContent);
+  	//	console.log(e.target.textContent);
   		if(batid!=null)
   		{
 	  		if(confirm("确认登记吗？"))
 	  		{
 	  			$.ajax({	
-			 		url:"http://yiranblade.cn/lbms/teacher/make/"+username+"/"+batid,
+			 		url:"http://192.168.1.112:8080/lbms/teacher/make/"+username+"/"+batid,
 			 		type:"GET",	
 			 		dataType:"json",  
 			 		success:function(data){
@@ -2827,6 +2940,14 @@ $(".admin_testorder").click(function(){
 			 		}
 	 			});
 	  		}
+  		}
+  		if(e.target.textContent==""&& $("#weeknum").html()!="")
+  		{
+  			additemplace(e);
+  		}
+  		else if(e.target.textContent=="ok")
+  		{
+  			okAdditemdis(e);
   		}
   	},
   // 	componentDidMount:function(){
@@ -2902,7 +3023,7 @@ $(".admin_testorder").click(function(){
   		var text=e.target.textContent;
   		filldata(result,text);
   		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2926,7 +3047,7 @@ $(".admin_testorder").click(function(){
 	     		 	可调整实验室列表
 	    		</div>
 	    		<h4>这里是全部可调整实验室列表:</h4>
-	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkclick(event.target.getAttribute("batid"))}}>
+	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkclick(event.target.getAttribute("batid"),event)}}>
 
 	    		</div>
 	    		<ul id="paging" onClick={this.padingclick}>
@@ -2940,7 +3061,7 @@ $(".admin_testorder").click(function(){
  });
 $(".teacher_tea").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher/"+username,
+	 		url:"http://192.168.1.112:8080/lbms/teacher/"+username,
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2956,7 +3077,7 @@ $(".teacher_tea").click(function(){
 })
 $(".teacher_grade").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2976,7 +3097,7 @@ $(".teacher_grade").click(function(){
 })
 $(".teacher_test").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://192.168.1.112:8080/lbms/batch/teacher/"+username+"&1",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
@@ -2993,7 +3114,7 @@ $(".teacher_test").click(function(){
 })
 $(".teacher_testall").click(function(){
  	$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/teacher/ordered",
+	 		url:"http://192.168.1.112:8080/lbms/teacher/ordered",
 	 		type:"GET",	
 	 		dataType:"json",
 	 		success:function(data){
