@@ -259,7 +259,8 @@
 	//填充数据
 	function filldata(result, text, disclick) {
 		//	console.log($("#selectPlace option:selected").val());
-		if ($("#selectPlace option:selected").val() != "全部" && disclick != 3 && $("#selectPlace option:selected").val() != undefined) {
+
+		if ($("#selectPlace option:selected").val() != "全部" && disclick != 3 && disclick != 2 && disclick != 4 && $("#selectPlace option:selected").val() != undefined) {
 			$.ajax({
 				url: "http://yiranblade.cn/lbms/batch/classroom/" + $("#selectPlace option:selected").val(),
 				type: "GET",
@@ -267,7 +268,7 @@
 				dataType: "json",
 				success: function (data) {
 					if (data.code == "200") {
-						//	console.log(data);
+						console.log("ajax");
 						result = data.data;
 					} else {
 						alert("错误发生了");
@@ -275,16 +276,20 @@
 				}
 			});
 		}
-
+		if (disclick == 4) //若为全部则为1
+			{
+				disclick = 1;
+			}
 		var termdate = new Date(2017, 2 - 1, 27); //开学的时间
 		termmsec = termdate.getTime(); //开学时间距 1970-01-01 的毫秒数
 		//	console.log(result);
+		//	console.log(disclick);
 
 		//设置标题的周数
 		var caption = document.getElementById("weeknum");
 		caption.innerHTML = text;
 
-		if (disclick != 1 && disclick != 3) {
+		if (disclick != 1 && disclick != 3 && disclick != 4) {
 			var tds = document.getElementsByTagName("td"); //初始化
 			for (var i = 0; i < tds.length; i++) {
 				if (i != 0 && i != 8 && i != 16 && i != 24 && i != 32 && i != 40 && i != 48) {
@@ -298,7 +303,9 @@
 		for (let list of result) {
 			//若数据的地点和选择的地点相等 或者 地点为全部 才继续下去
 			//		console.log(list.laboratory);
+			//	console.log(list);
 			if (list.laboratory == $("#selectPlace option:selected").val() || $("#selectPlace option:selected").val() == "全部" || $("#selectPlace option:selected").val() == undefined) {
+				//	console.log(list);
 				var listdate = list.date.split("-");
 				var date = new Date(listdate[0], listdate[1] - 1, listdate[2]); //该课程的时间
 				var datemsec = date.getTime(); //课程时间距 1970-01-01 
@@ -308,7 +315,7 @@
 				//	console.log("text:"+text+" datemsec:"+datemsec);
 				if (text == datemsec) //若周期和点击获取的text相等则渲染到页面里
 					{
-						//		console.log(list);
+						//			console.log(list);
 						var teaname = ajaxgetteaname(list.teaid); //根据教师id获取教师姓名
 						var itemname = ajaxgetitemname(list.itemid); //根据项目批次id获取项目名称
 						var listdate = list.date.split("-");
@@ -325,8 +332,11 @@
 						if (seg == "中午") seg = 2;
 						if (seg > 5 || seg == "晚上") seg = 5;
 						tds[seg * 8 + week].innerHTML = "<a class=td_a/>";
+						tds[seg * 8 + week].style.background = "rgb(246,241,241)";
+						tds[seg * 8 + week].style.cursor = "default";
 						tds[seg * 8 + week].firstChild.innerHTML = list.laboratory + "<br/>" + itemname;
 						tds[seg * 8 + week].firstChild.setAttribute("title", list.laboratory + "\n" + itemname + "\n" + teaname + "\n" + list.date);
+
 						if (disclick != 1) {
 							tds[seg * 8 + week].style.cursor = "pointer";
 							tds[seg * 8 + week].firstChild.setAttribute("batid", list.batid);
@@ -806,7 +816,7 @@
 			var result = this.state.result;
 			var text = e.target.textContent;
 			//	console.log(result);
-			filldata(result, text);
+			filldata(result, text, 2);
 		},
 		render: function () {
 			this.ajaxchange(this.props.data);
@@ -820,6 +830,45 @@
 					"div",
 					{ className: "title" },
 					"\u67E5\u770B\u5DF2\u786E\u8BA4\u5B9E\u9A8C"
+				),
+				React.createElement(
+					"select",
+					{ id: "selectPlace" },
+					React.createElement(
+						"option",
+						{ value: "\u5168\u90E8" },
+						"\u5168\u90E8"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz123" },
+						"fz123"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz134" },
+						"fz134"
+					),
+					React.createElement(
+						"option",
+						{ value: "a222" },
+						"a222"
+					),
+					React.createElement(
+						"option",
+						{ value: "b345" },
+						"b345"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff106" },
+						"ff106"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff207" },
+						"ff207"
+					)
 				),
 				React.createElement("div", { id: "student_infor", ref: "student_infor", onClick: event => {
 						this.getgrade(event.target.getAttribute("batid"));
@@ -993,7 +1042,7 @@
 			var result = this.state.result;
 			var text = e.target.textContent;
 			//	console.log(result);
-			filldata(result, text);
+			filldata(result, text, 2);
 		},
 		render: function () {
 			this.ajaxchange(this.props.data);
@@ -1012,6 +1061,45 @@
 					"h4",
 					null,
 					"\u8FD9\u91CC\u662F\u5168\u90E8\u9879\u76EE\u6279\u6B21:"
+				),
+				React.createElement(
+					"select",
+					{ id: "selectPlace" },
+					React.createElement(
+						"option",
+						{ value: "\u5168\u90E8" },
+						"\u5168\u90E8"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz123" },
+						"fz123"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz134" },
+						"fz134"
+					),
+					React.createElement(
+						"option",
+						{ value: "a222" },
+						"a222"
+					),
+					React.createElement(
+						"option",
+						{ value: "b345" },
+						"b345"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff106" },
+						"ff106"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff207" },
+						"ff207"
+					)
 				),
 				React.createElement("div", { id: "student_infor", ref: "student_infor", onClick: event => {
 						this.orderclick(event.target.getAttribute("batid"), event.target.getAttribute("itemid"));
@@ -4059,7 +4147,7 @@
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
 			var text = e.target.textContent;
-			filldata(result, text);
+			filldata(result, text, 2);
 		},
 		render: function () {
 			this.ajaxchange(this.props.data);
@@ -4090,6 +4178,45 @@
 						"option",
 						{ value: "sel_delete" },
 						"\u53D6\u6D88\u767B\u8BB0\u72B6\u6001"
+					)
+				),
+				React.createElement(
+					"select",
+					{ id: "selectPlace" },
+					React.createElement(
+						"option",
+						{ value: "\u5168\u90E8" },
+						"\u5168\u90E8"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz123" },
+						"fz123"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz134" },
+						"fz134"
+					),
+					React.createElement(
+						"option",
+						{ value: "a222" },
+						"a222"
+					),
+					React.createElement(
+						"option",
+						{ value: "b345" },
+						"b345"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff106" },
+						"ff106"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff207" },
+						"ff207"
 					)
 				),
 				React.createElement("div", { id: "teacher_infor", ref: "teacher_infor", onClick: event => {
@@ -4810,14 +4937,29 @@
 			this.ajaxchange(this.props.data);
 			var result = this.state.result;
 			var text = e.target.textContent;
-			filldata(result, text);
+			filldata(result, text, 2);
 			$.ajax({
-				url: "http://yiranblade.cn/lbms/batch/teacher/" + username + "&1",
+				url: "http://yiranblade.cn/lbms/teacher/page/1",
 				type: "GET",
 				dataType: "json",
+				async: false,
 				success: function (data) {
 					if (data.code == "200") {
-						filldata(data.data.recordList, text, 1);
+						for (var i = 0; i < data.data.recordList.length; i++) {
+							$.ajax({
+								url: "http://yiranblade.cn/lbms/batch/teacher/" + data.data.recordList[i].teaid + "&1",
+								type: "GET",
+								dataType: "json",
+								async: false,
+								success: function (data) {
+									if (data.code == "200") {
+										filldata(data.data.recordList, text, 4);
+									} else {
+										alert("no");
+									}
+								}
+							});
+						}
 					} else {
 						alert("no");
 					}
@@ -4840,6 +4982,45 @@
 					"h4",
 					null,
 					"\u8FD9\u91CC\u662F\u5168\u90E8\u53EF\u8C03\u6574\u5B9E\u9A8C\u5BA4\u5217\u8868:"
+				),
+				React.createElement(
+					"select",
+					{ id: "selectPlace" },
+					React.createElement(
+						"option",
+						{ value: "\u5168\u90E8" },
+						"\u5168\u90E8"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz123" },
+						"fz123"
+					),
+					React.createElement(
+						"option",
+						{ value: "fz134" },
+						"fz134"
+					),
+					React.createElement(
+						"option",
+						{ value: "a222" },
+						"a222"
+					),
+					React.createElement(
+						"option",
+						{ value: "b345" },
+						"b345"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff106" },
+						"ff106"
+					),
+					React.createElement(
+						"option",
+						{ value: "ff207" },
+						"ff207"
+					)
 				),
 				React.createElement("div", { id: "teacher_infor", ref: "teacher_infor", onClick: event => {
 						this.checkclick(event.target.getAttribute("batid"), event);

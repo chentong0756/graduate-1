@@ -199,7 +199,8 @@ var TableRender=React.createClass({
 //填充数据
 function filldata(result,text,disclick){
 //	console.log($("#selectPlace option:selected").val());
-	if($("#selectPlace option:selected").val()!="全部" && disclick!=3 && $("#selectPlace option:selected").val()!=undefined)
+	
+	if($("#selectPlace option:selected").val()!="全部" && disclick!=3 && disclick!=2 && disclick!=4 &&$("#selectPlace option:selected").val()!=undefined)
 	{
 		$.ajax({	
 	 		url:"http://yiranblade.cn/lbms/batch/classroom/"+$("#selectPlace option:selected").val(),
@@ -209,7 +210,7 @@ function filldata(result,text,disclick){
 	 		success:function(data){
 	 			if(data.code=="200")
 	 			{ 	
-	 			//	console.log(data);
+	 				console.log("ajax");
 	 				result=data.data;
 	 			}
 	 			else{
@@ -218,16 +219,20 @@ function filldata(result,text,disclick){
 	 		}
  		});	
 	}
-
+	if(disclick==4)//若为全部则为1
+	{
+		disclick=1;
+	}
 	var termdate=new Date(2017,2-1,27); //开学的时间
 	termmsec=termdate.getTime();//开学时间距 1970-01-01 的毫秒数
 //	console.log(result);
+//	console.log(disclick);
 
 	//设置标题的周数
 	var caption=document.getElementById("weeknum");
 	caption.innerHTML=text;
 
-	if(disclick!=1&&disclick!=3)
+	if(disclick!=1&&disclick!=3&&disclick!=4)
 	{
 		var tds=document.getElementsByTagName("td");//初始化
 		for(var i=0;i<tds.length;i++)
@@ -245,8 +250,10 @@ function filldata(result,text,disclick){
 	{	
 		//若数据的地点和选择的地点相等 或者 地点为全部 才继续下去
 //		console.log(list.laboratory);
+	//	console.log(list);
 		if(list.laboratory==$("#selectPlace option:selected").val()||$("#selectPlace option:selected").val()=="全部" || $("#selectPlace option:selected").val()==undefined)
 		{			
+	//	console.log(list);
 		var listdate=list.date.split("-");
 		var date=new Date(listdate[0],listdate[1]-1,listdate[2]); //该课程的时间
 		var datemsec=date.getTime(); //课程时间距 1970-01-01 
@@ -256,7 +263,7 @@ function filldata(result,text,disclick){
 	//	console.log("text:"+text+" datemsec:"+datemsec);
 		if(text==datemsec) //若周期和点击获取的text相等则渲染到页面里
 		{
-	//		console.log(list);
+//			console.log(list);
 			var teaname=ajaxgetteaname(list.teaid); //根据教师id获取教师姓名
 			var itemname=ajaxgetitemname(list.itemid); //根据项目批次id获取项目名称
 			var listdate=list.date.split("-");
@@ -273,8 +280,11 @@ function filldata(result,text,disclick){
 			if(seg=="中午") seg=2;
 			if(seg>5||seg=="晚上") seg=5;
 			tds[seg*8+week].innerHTML="<a class=td_a/>"
+			tds[seg*8+week].style.background="rgb(246,241,241)";
+			tds[seg*8+week].style.cursor="default";
 			tds[seg*8+week].firstChild.innerHTML=list.laboratory+"<br/>"+itemname;
 			tds[seg*8+week].firstChild.setAttribute("title",list.laboratory+"\n"+itemname+"\n"+teaname+"\n"+list.date);
+			
 			if(disclick!=1)
 			{
 				tds[seg*8+week].style.cursor="pointer";
@@ -668,7 +678,7 @@ function okAdditemdis(e){
  		var result = this.state.result;
   		var text=e.target.textContent;
   	//	console.log(result);
-  		filldata(result,text);
+  		filldata(result,text,2);
   	},
  	render:function(){
  		this.ajaxchange(this.props.data);
@@ -680,6 +690,15 @@ function okAdditemdis(e){
  				<div className="title">
 	     		 查看已确认实验
 	    		</div>
+	    		<select id="selectPlace">
+	    			<option value="全部">全部</option>
+	    			<option value="fz123">fz123</option>
+	    			<option value="fz134">fz134</option>
+	    			<option value="a222">a222</option>
+	    			<option value="b345">b345</option>
+	    			<option value="ff106">ff106</option>
+	    			<option value="ff207">ff207</option>
+	    		</select>
  				<div id="student_infor" ref="student_infor" onClick={(event)=>{this.getgrade(event.target.getAttribute("batid"))}}>
 
 	    		</div>
@@ -768,7 +787,7 @@ function okAdditemdis(e){
  		var result = this.state.result;
   		var text=e.target.textContent;
   	//	console.log(result);
-  		filldata(result,text);
+  		filldata(result,text,2);
   	},
  	render:function(){
  		this.ajaxchange(this.props.data);
@@ -781,6 +800,15 @@ function okAdditemdis(e){
 	     		 	待确认实验
 	    		</div>
 	    		<h4>这里是全部项目批次:</h4>
+	    		<select id="selectPlace">
+	    			<option value="全部">全部</option>
+	    			<option value="fz123">fz123</option>
+	    			<option value="fz134">fz134</option>
+	    			<option value="a222">a222</option>
+	    			<option value="b345">b345</option>
+	    			<option value="ff106">ff106</option>
+	    			<option value="ff207">ff207</option>
+	    		</select>
 	    		<div id="student_infor" ref="student_infor" onClick={(event)=>{this.orderclick(event.target.getAttribute("batid"),event.target.getAttribute("itemid"))}}>
 
 	    		</div>
@@ -2605,7 +2633,7 @@ $(".admin_testorder").click(function(){
   		this.ajaxchange(this.props.data);
  		var result = this.state.result;
   		var text=e.target.textContent;
-  		filldata(result,text);
+  		filldata(result,text,2);
   	},
  	render:function(){
  		this.ajaxchange(this.props.data);
@@ -2620,6 +2648,15 @@ $(".admin_testorder").click(function(){
 	    		<select id="selectState">	    			
 	    			<option value="sel_checkstu">查看登记学生状态</option>
 	    			<option value="sel_delete">取消登记状态</option>
+	    		</select>
+	    		<select id="selectPlace">
+	    			<option value="全部">全部</option>
+	    			<option value="fz123">fz123</option>
+	    			<option value="fz134">fz134</option>
+	    			<option value="a222">a222</option>
+	    			<option value="b345">b345</option>
+	    			<option value="ff106">ff106</option>
+	    			<option value="ff207">ff207</option>
 	    		</select>
 	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkstu(event.target.getAttribute("batid")),this.cancel(event.target.getAttribute("batid"))} }>
 
@@ -3026,21 +3063,40 @@ $(".admin_testorder").click(function(){
   		this.ajaxchange(this.props.data);
  		var result = this.state.result;
   		var text=e.target.textContent;
-  		filldata(result,text);
+  		filldata(result,text,2);
   		$.ajax({	
-	 		url:"http://yiranblade.cn/lbms/batch/teacher/"+username+"&1",
+	 		url:"http://yiranblade.cn/lbms/teacher/page/1",
 	 		type:"GET",	
 	 		dataType:"json",
+	 		async:false,
 	 		success:function(data){
 	 			if(data.code=="200")
 	 			{ 	
-	 				filldata(data.data.recordList,text,1);
+	 				for(var i=0;i<data.data.recordList.length;i++)
+	 				{
+	 					$.ajax({	
+					 		url:"http://yiranblade.cn/lbms/batch/teacher/"+data.data.recordList[i].teaid+"&1",
+					 		type:"GET",	
+					 		dataType:"json",
+					 		async:false,
+					 		success:function(data){
+					 			if(data.code=="200")
+					 			{ 	
+					 				filldata(data.data.recordList,text,4);
+					 			}
+					 			else{
+					 				alert("no");
+					 			}
+					 		}
+				 		});
+	 				}	 				
 	 			}
 	 			else{
 	 				alert("no");
 	 			}
 	 		}
  		});
+ 		
   	},
  	render:function(){
  		this.ajaxchange(this.props.data);
@@ -3052,6 +3108,15 @@ $(".admin_testorder").click(function(){
 	     		 	可调整实验室列表
 	    		</div>
 	    		<h4>这里是全部可调整实验室列表:</h4>
+	    		<select id="selectPlace">
+	    			<option value="全部">全部</option>
+	    			<option value="fz123">fz123</option>
+	    			<option value="fz134">fz134</option>
+	    			<option value="a222">a222</option>
+	    			<option value="b345">b345</option>
+	    			<option value="ff106">ff106</option>
+	    			<option value="ff207">ff207</option>
+	    		</select>
 	    		<div id="teacher_infor" ref="teacher_infor" onClick={(event)=>{this.checkclick(event.target.getAttribute("batid"),event)}}>
 
 	    		</div>
