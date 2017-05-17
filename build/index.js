@@ -474,7 +474,7 @@
 		var mydate = date.getDate() - 1; //获取日
 
 		//若没有教师的值，则使用当前个人信息中的id
-		console.log(e.target.previousSibling.value == "");
+		console.log(e.target.previousSibling.value);
 		var teaid = e.target.previousSibling.value;
 
 		if (typeof teaid == typeof "string" && e.target.previousSibling.value != null && e.target.previousSibling.value != "") teaid = username;
@@ -950,11 +950,13 @@
 				dataType: "json",
 				success: function (data) {
 					if (data.code == "200") {
-						for (var i = 0; i < data.data.length; i++) {
-							//console.log(data.data[i].itemid);
-							//判断此时登记的实验id是否存在，若存在则不能继续登记
-							if (data.data[i].itemid == okid) j = 1;
-						}
+						// for(var i=0;i<data.data.length;i++)
+						// {
+						// 	//console.log(data.data[i].itemid);
+						// 	//判断此时登记的实验id是否存在，若存在则不能继续登记
+						// 	if(data.data[i].itemid==okid)
+						// 		j=1;
+						// }
 						if (j == 0) {
 							//不存在则发送请求，登记成功
 							$.ajax({
